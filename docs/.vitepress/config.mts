@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 export default defineConfig({
   title: "Folia",
-  description: "folia-major 的主页与文档站点",
+  description: "Folia 播放器文档站点，包含用户指南、部署说明与接口参考。",
   lang: "zh-CN",
   cleanUrls: true,
   lastUpdated: true,
@@ -18,8 +18,8 @@ export default defineConfig({
     logo: "/icon.svg",
     nav: [
       { text: "首页", link: "/" },
-      { text: "文档", link: "/guide/" },
-      { text: "Vercel 部署", link: "/guide/deploy-vercel" },
+      { text: "用户指南", link: "/guide/" },
+      { text: "开发者", link: "/developer/" },
       { text: "GitHub", link: "https://github.com/chthollyphile/folia-major" }
     ],
     sidebar: {
@@ -29,15 +29,35 @@ export default defineConfig({
           items: [
             { text: "概览", link: "/guide/" },
             { text: "快速开始", link: "/guide/quick-start" },
-            { text: "部署到 Vercel", link: "/guide/deploy-vercel" }
+            { text: "桌面版功能", link: "/guide/desktop" }
           ]
         },
         {
           text: "功能说明",
           items: [
-            { text: "桌面端", link: "/guide/desktop" },
+            { text: "播放、歌词与视觉模式", link: "/guide/playback-and-lyrics" },
             { text: "本地音乐", link: "/guide/local-music" },
-            { text: "AI 主题", link: "/guide/ai-theme" }
+            { text: "Navidrome", link: "/guide/navidrome" },
+            { text: "Stage 与 Now Playing", link: "/guide/stage-and-now-playing" },
+            { text: "AI 主题", link: "/guide/ai-theme" },
+            { text: "常见问题", link: "/guide/faq" }
+          ]
+        }
+      ],
+      "/developer/": [
+        {
+          text: "开发与部署",
+          items: [
+            { text: "开发者概览", link: "/developer/" },
+            { text: "部署指南", link: "/developer/deploy" },
+            { text: "配置说明", link: "/developer/configuration" }
+          ]
+        },
+        {
+          text: "接口说明",
+          items: [
+            { text: "Stage API", link: "/developer/stage-api" },
+            { text: "AI 主题接口", link: "/developer/ai-theme-api" }
           ]
         }
       ]

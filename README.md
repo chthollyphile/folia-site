@@ -1,6 +1,10 @@
 # folia-site
 
-VitePress site for the `folia-major` homepage and documentation.
+Folia播放器的官方文档站点，使用 [VitePress](https://vitepress.dev/) 构建.
+
+# Guide
+
+推荐使用 VScode 来编写文档，加载项目内配置文件 `.vscode\settings.json` 来自动处理图片复制粘贴和链接生成。
 
 ## Development
 

@@ -1,0 +1,7 @@
+{
+  "markdown.copyFiles.destination": {
+    "/docs/guide/**/*": "../public/screenshots/guide/${documentBaseName}/",
+    "/docs/developer/**/*": "../public/screenshots/developer/${documentBaseName}/",
+    "/docs/**/*": "public/screenshots/misc/${documentBaseName}/"
+  }
+}
