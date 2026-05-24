@@ -53,4 +53,5 @@ Folia 主要由这些部分构成：
 2. [配置说明](/developer/configuration)
 3. [Stage API](/developer/stage-api)
 4. [AI 主题接口](/developer/ai-theme-api)
+5. [歌词动画视觉效果器](/developer/visualizer)
 
