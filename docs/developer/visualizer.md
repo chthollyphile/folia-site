@@ -167,15 +167,20 @@ interface LyricData {
 }
 ```
 
-读这个对象时，可以重点抓住下面几件事：
+读这个对象时，可以直接拿这三句来理解统一歌词对象的几个关键约定：
+
+1. 第一句 `......`
+   这不是~~压缩毛巾~~原歌词，而是流水线在间奏空窗期补出的占位行，visualizer 应该无条件信任歌词流水线产生的 `lines`，并将其显示出来。
+2. 第二句 `グルグル 機械仕掛けのun deux trois`
+   这句同时包含 CJK 和拉丁文本。可以看到 `words` 里前半段大多是单字，但 `deux`、`trois` 直接以整词出现，而不是拆成单个字母。所以如果某个 visualizer 想做字母级动画，需要在 renderer 内部基于 `word.text` 再细分，不能假定 parser 一定会把拉丁字母拆开。仓库库有专门的 nonCJK 检测工具可以参考。
+3. 第三句 `絡まる 糸 解いて 動き出す`
+   这句的 `words` 里仅有 CJK 字符，但 `fullText` 里仍然包含空格。也就是说，`fullText` 不一定等于 `words.map(w => w.text).join('')`，它更接近“原始歌词文本”，而 `words` 则是为了动画方便切分过的时间片段。两者不一定完全对齐，renderer 需要考虑如何处理这种不对齐的情况。
+
+基于这三句，再看下面这些字段会更直观：
 
 - `format` 表示这次解析最终走的是哪条 parser 分支；这首歌是 `lrc`
-- `firstLine.fullText === "......"` 不是原歌词，而是流水线为了前奏空窗期补出的占位行
 - `fullText` 是整句文本，适合做整句布局
 - `words` 是歌词流水线产出的最小时间片段，但它不保证一定细到“单个字符”
-- 对中日韩歌词，`words` 往往接近逐字时间轴
-- 对英文、法文这类以空格分词的内容，`words` 里可能直接是 `deux`、`trois` 这样的整词，而不是 `d/e/u/x`
-- 如果某个 visualizer 需要更细的字母级动画，应该在 renderer 内部基于 `word.text` 自己再拆分，而不是假定 parser 一定会把每个拉丁字母单独切开
 - `translation` 是已经对齐到当前句的翻译，不需要 renderer 再自己匹配
 - `renderHints.rawDuration` 是这句的原始时长
 - `renderHints.renderEndTime` 是这句允许继续留在屏幕上的最晚时间，visualizer 可以用它做退场和尾迹，但不能假定它一定不会被下一句截断
