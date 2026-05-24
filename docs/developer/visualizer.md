@@ -83,93 +83,87 @@ interface LyricData {
 文档里的这段 JSON 不是手写示意图，而是直接调用主项目现有代码，对 `songId: 2018447139` 执行完整歌词流水线后截取得到的结果。
 :::
 
-这首歌当前走的是 `lrc + translation` 分支，截取后的对象大致如下：
+这首歌当前走的是 `lrc + translation` 分支。下面展示的是解析完成后、进入 visualizer 前的真实 `LyricData` 形状节选：
 
 ```json
 {
-  "songId": 2018447139,
-  "format": "lrc",
-  "payloadSummary": {
-    "hasMainLrc": true,
-    "hasYrcLrc": false,
-    "hasTransLrc": true,
-    "isPureMusic": false
-  },
-  "firstLine": {
-    "startTime": 0.5,
-    "endTime": 27.74,
-    "fullText": "......",
-    "words": [
-      { "text": ".", "startTime": 0.5, "endTime": 5.04 },
-      { "text": ".", "startTime": 5.04, "endTime": 9.58 },
-      { "text": ".", "startTime": 9.58, "endTime": 14.120000000000001 },
-      { "text": ".", "startTime": 14.120000000000001, "endTime": 18.66 },
-      { "text": ".", "startTime": 18.66, "endTime": 23.2 },
-      { "text": ".", "startTime": 23.2, "endTime": 27.740000000000002 }
-    ],
-    "renderHints": {
-      "rawDuration": 27.24,
-      "timingClass": "normal",
-      "renderEndTime": 28.12,
-      "lineTransitionMode": "normal",
-      "wordRevealMode": "normal"
+  "lines": [
+    {
+      "startTime": 0.5,
+      "endTime": 27.74,
+      "fullText": "......",
+      "words": [
+        { "text": ".", "startTime": 0.5, "endTime": 5.04 },
+        { "text": ".", "startTime": 5.04, "endTime": 9.58 },
+        { "text": ".", "startTime": 9.58, "endTime": 14.120000000000001 },
+        { "text": ".", "startTime": 14.120000000000001, "endTime": 18.66 },
+        { "text": ".", "startTime": 18.66, "endTime": 23.2 },
+        { "text": ".", "startTime": 23.2, "endTime": 27.740000000000002 }
+      ],
+      "renderHints": {
+        "rawDuration": 27.24,
+        "timingClass": "normal",
+        "renderEndTime": 28.12,
+        "lineTransitionMode": "normal",
+        "wordRevealMode": "normal"
+      }
+    },
+    {
+      "startTime": 28.24,
+      "endTime": 35.08,
+      "fullText": "グルグル 機械仕掛けのun deux trois",
+      "translation": "一二三，机械装置开始转动",
+      "words": [
+        { "text": "グ", "startTime": 28.24, "endTime": 28.641042345276873 },
+        { "text": "ル", "startTime": 28.641042345276873, "endTime": 29.042084690553747 },
+        { "text": "グ", "startTime": 29.042084690553747, "endTime": 29.44312703583062 },
+        { "text": "ル", "startTime": 29.44312703583062, "endTime": 29.844169381107495 },
+        { "text": "機", "startTime": 29.844169381107495, "endTime": 30.24521172638437 },
+        { "text": "械", "startTime": 30.24521172638437, "endTime": 30.646254071661243 },
+        { "text": "仕", "startTime": 30.646254071661243, "endTime": 31.047296416938117 },
+        { "text": "掛", "startTime": 31.047296416938117, "endTime": 31.44833876221499 },
+        { "text": "け", "startTime": 31.44833876221499, "endTime": 31.849381107491865 },
+        { "text": "の", "startTime": 31.849381107491865, "endTime": 32.250423452768736 },
+        { "text": "u", "startTime": 32.250423452768736, "endTime": 32.65146579804561 },
+        { "text": "n", "startTime": 32.65146579804561, "endTime": 33.05250814332248 },
+        { "text": "deux", "startTime": 33.05250814332248, "endTime": 33.694175895765476 },
+        { "text": "trois", "startTime": 33.694175895765476, "endTime": 34.396 }
+      ],
+      "renderHints": {
+        "rawDuration": 6.84,
+        "timingClass": "normal",
+        "renderEndTime": 35.08,
+        "lineTransitionMode": "normal",
+        "wordRevealMode": "normal"
+      }
+    },
+    {
+      "startTime": 35.08,
+      "endTime": 41.94,
+      "fullText": "絡まる 糸 解いて 動き出す",
+      "translation": "缠绕的线被解开，开始运作",
+      "words": [
+        { "text": "絡", "startTime": 35.08, "endTime": 35.64127272727273 },
+        { "text": "ま", "startTime": 35.64127272727273, "endTime": 36.20254545454546 },
+        { "text": "る", "startTime": 36.20254545454546, "endTime": 36.76381818181819 },
+        { "text": "糸", "startTime": 36.76381818181819, "endTime": 37.32509090909092 },
+        { "text": "解", "startTime": 37.32509090909092, "endTime": 37.88636363636365 },
+        { "text": "い", "startTime": 37.88636363636365, "endTime": 38.44763636363638 },
+        { "text": "て", "startTime": 38.44763636363638, "endTime": 39.00890909090911 },
+        { "text": "動", "startTime": 39.00890909090911, "endTime": 39.57018181818184 },
+        { "text": "き", "startTime": 39.57018181818184, "endTime": 40.13145454545457 },
+        { "text": "出", "startTime": 40.13145454545457, "endTime": 40.692727272727296 },
+        { "text": "す", "startTime": 40.692727272727296, "endTime": 41.254000000000026 }
+      ],
+      "renderHints": {
+        "rawDuration": 6.859999999999999,
+        "timingClass": "normal",
+        "renderEndTime": 41.94,
+        "lineTransitionMode": "normal",
+        "wordRevealMode": "normal"
+      }
     }
-  },
-  "secondLine": {
-    "startTime": 28.24,
-    "endTime": 35.08,
-    "fullText": "グルグル 機械仕掛けのun deux trois",
-    "translation": "一二三，机械装置开始转动",
-    "words": [
-      { "text": "グ", "startTime": 28.24, "endTime": 28.641042345276873 },
-      { "text": "ル", "startTime": 28.641042345276873, "endTime": 29.042084690553747 },
-      { "text": "グ", "startTime": 29.042084690553747, "endTime": 29.44312703583062 },
-      { "text": "ル", "startTime": 29.44312703583062, "endTime": 29.844169381107495 },
-      { "text": "機", "startTime": 29.844169381107495, "endTime": 30.24521172638437 },
-      { "text": "械", "startTime": 30.24521172638437, "endTime": 30.646254071661243 },
-      { "text": "仕", "startTime": 30.646254071661243, "endTime": 31.047296416938117 },
-      { "text": "掛", "startTime": 31.047296416938117, "endTime": 31.44833876221499 },
-      { "text": "け", "startTime": 31.44833876221499, "endTime": 31.849381107491865 },
-      { "text": "の", "startTime": 31.849381107491865, "endTime": 32.250423452768736 },
-      { "text": "u", "startTime": 32.250423452768736, "endTime": 32.65146579804561 },
-      { "text": "n", "startTime": 32.65146579804561, "endTime": 33.05250814332248 },
-      { "text": "deux", "startTime": 33.05250814332248, "endTime": 33.694175895765476 },
-      { "text": "trois", "startTime": 33.694175895765476, "endTime": 34.396 }
-    ],
-    "renderHints": {
-      "rawDuration": 6.84,
-      "timingClass": "normal",
-      "renderEndTime": 35.08,
-      "lineTransitionMode": "normal",
-      "wordRevealMode": "normal"
-    }
-  },
-  "thirdLine": {
-    "startTime": 35.08,
-    "endTime": 41.94,
-    "fullText": "絡まる 糸 解いて 動き出す",
-    "translation": "缠绕的线被解开，开始运作",
-    "words": [
-      { "text": "絡", "startTime": 35.08, "endTime": 35.64127272727273 },
-      { "text": "ま", "startTime": 35.64127272727273, "endTime": 36.20254545454546 },
-      { "text": "る", "startTime": 36.20254545454546, "endTime": 36.76381818181819 },
-      { "text": "糸", "startTime": 36.76381818181819, "endTime": 37.32509090909092 },
-      { "text": "解", "startTime": 37.32509090909092, "endTime": 37.88636363636365 },
-      { "text": "い", "startTime": 37.88636363636365, "endTime": 38.44763636363638 },
-      { "text": "て", "startTime": 38.44763636363638, "endTime": 39.00890909090911 },
-      { "text": "動", "startTime": 39.00890909090911, "endTime": 39.57018181818184 },
-      { "text": "き", "startTime": 39.57018181818184, "endTime": 40.13145454545457 },
-      { "text": "出", "startTime": 40.13145454545457, "endTime": 40.692727272727296 },
-      { "text": "す", "startTime": 40.692727272727296, "endTime": 41.254000000000026 }
-    ],
-    "renderHints": {
-      "rawDuration": 6.859999999999999,
-      "timingClass": "normal",
-      "renderEndTime": 41.94,
-      "lineTransitionMode": "normal",
-      "wordRevealMode": "normal"
-    }
-  }
+  ]
 }
 ```
 
