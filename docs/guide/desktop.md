@@ -25,13 +25,21 @@
 
 ### Hyprland 提示
 
-Hyprland 上默认情况下就可以以浮窗的形式打开遥控窗，但如果你发现它被当作普通窗口停靠了，可以尝试以下方法：
+Hyprland 上默认情况下就可以以浮窗的形式打开遥控窗，为实现最佳效果，建议添加如下配置到 `hyprland.conf`
 
 ```ini
-windowrule = float, title:^(Folia Remote)$
-windowrule = size 520 315, title:^(Folia Remote)$
-windowrule = center, title:^(Folia Remote)$
-windowrule = pin, title:^(Folia Remote)$
+windowrule {
+  name = folia-remote
+  float = on
+  size = 520 315
+  center = on
+  pin = on
+  no_blur = on
+  border_size = 0
+  no_shadow = on
+  match:class = ^(folia-major)$
+  match:title = ^(Folia Remote)$
+}
 ```
 
 ## 视频录制
