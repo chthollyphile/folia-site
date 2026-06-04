@@ -127,7 +127,7 @@ https://your-api-project.vercel.app/
 如果你后面在 Folia 里遇到某些歌无法正常拉取资源，这一点值得优先排查。
 此外，由于 Vercel 的服务器在国外，访问网易云的接口可能会比较慢，甚至偶尔会有访问失败的情况。如果你发现这个问题比较严重，可以考虑把 API 部署到国内的服务器上，或者使用一些加速服务。
 
-接下来请跳转到 [API 部署完之后，回到 Folia](/guide/deploy-vercel#api部署完之后)，继续完成 Folia 的部署。
+接下来请跳转到 [API 部署完之后，回到 Folia](/guide/deploy-vercel#api-部署完之后)，继续完成 Folia 的部署。
 
 ### 方法 B：在你自己的电脑或服务器上运行 API
 
