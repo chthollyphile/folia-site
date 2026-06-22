@@ -2,75 +2,109 @@
 
 这一部分面向两类用户：
 
-- 想让外部程序把歌词或媒体推送到 Folia
-- 想把 Folia 作为外部播放器的沉浸式歌词显示层
+- 想让外部程序把歌词、媒体状态或点歌请求推给 Folia
+- 想让 Folia 充当别的播放器的沉浸式歌词显示层
 
-## Stage/舞台 是什么
+这套能力本质上是“把播放和展示拆开”。谁负责出声、谁负责推歌词、谁负责渲染大屏效果，都可以分开。
 
-Stage Mode 是桌面版提供的一套本地集成能力。启用后，Folia 会在本机启动一个带 Token 的 HTTP API。
+## Stage 是什么
 
-外部程序可以通过它：
+Stage Mode 是桌面版提供的一套本地集成能力。启用后，Folia 会在本机维持一组可供外部程序使用的状态与接口。
 
-- 推送一段歌词
-- 推送一段媒体会话
-- 搜索歌曲
-- 让 Folia 直接点歌或追加进队列
+它适合这些场景：
 
-适合：
+- 你自己写一个歌词控制工具
+- 你有串流 / 舞台展示 / 自动化脚本
+- 你想把 Folia 当成“歌词动画前端”
+- 你希望外部程序决定当前歌曲、歌词或队列
 
-- 自定义歌词工具
-- 串流或舞台展示工具
-- 自动化脚本
-- 需要把 Folia 当成“歌词前端”的本地程序
+## Stage API 模式
 
-## Now Playing 是什么
+Stage API 模式下，Folia 会启动一个本机 HTTP 服务，并提供 Bearer Token。
 
-Now Playing (https://github.com/Widdit/now-playing-service) 是一个开源的「正在播放」歌曲展示工具。支持检测 20+ 款音乐软件的歌曲信息，并通过 WebSocket 把它们推送到本地服务。
-
-## 如何启用 Stage Mode
-
-1. 使用桌面版启动 Folia。
-2. 在设置里开启 `Stage Mode`。
-3. 选择模式来源：
-   - `Stage API` (仅桌面版可用)
-   - `Now Playing`
-
-### Stage API 模式
-
-需要复制本地地址和 Bearer Token。
-
-默认情况下，本地地址形如：
+默认地址通常是：
 
 ```text
 http://127.0.0.1:32107
 ```
 
-然后可以进行二次开发，做出适合自己的工具。
+外部程序可以通过它做的事，不只是简单推歌词，还包括：
 
-### Now Playing 模式
+- 健康检查
+- 读取当前状态
+- 推送歌词会话或媒体会话
+- 搜索歌曲
+- 发起外部播放请求
+- 读取或控制播放队列
 
-Now Playing 模式下，folia 会尝试连接本机正在运行的 Now Playing WebSocket 接口：
+从代码上看，Stage API 已经覆盖了比“演示接口”更完整的一层 player 交互，所以它很适合做真正的桌面联动工具。
+
+## Now Playing 模式
+
+Now Playing 模式下，Folia 会尝试连接本机的 Now Playing 服务，让别的播放器继续负责播放，而 Folia 只负责把歌曲、进度和歌词渲染成沉浸式界面。
+
+常见连接地址是：
 
 ```text
 ws://localhost:9863/api/ws/lyric
 ```
 
-连接后可以把其他播放器的当前歌曲、暂停状态、进度和歌词同步到 Folia，而音频处理，播放控制仍然由原播放器负责。
+接入后，Folia 可以拿到：
 
-## Stage API 和 Now Playing 的区别
+- 当前歌曲标题和艺人
+- 播放 / 暂停状态
+- 当前进度
+- 外部歌词信息
 
-> [!TIP]
-> Stage API 仅支持桌面版，Now Playing 模式支持所有平台。
+这很适合“你已经有主播放器，但不满意它的歌词展示效果”的情况。
 
-| 模式 | 适合场景 | 数据入口 |
-| --- | --- | --- |
-| Stage API | 你自己控制歌词、音频、封面或点歌流程 | 本地 HTTP |
-| Now Playing | 你已经有独立播放器，只想用 Folia 作为歌词动画 | 本地 WebSocket |
+## 它们的区别
+
+| 模式 | 谁负责播放音频 | 谁负责提供数据 | 更适合什么 |
+| --- | --- | --- | --- |
+| Stage API | 视你的外部程序集成方式而定 | 你自己的程序或脚本 | 深度定制、自动化、二次开发 |
+| Now Playing | 原播放器 | Now Playing 服务 | 已有主播放器，只想把 Folia 当显示层 |
+
+更简单地说：
+
+- Stage API 偏“你自己控制整个流程”
+- Now Playing 偏“你已经有流程，只借用 Folia 渲染画面”
+
+## 如何启用
+
+1. 使用桌面版启动 Folia。
+2. 打开设置中的“集成设置”。
+3. 开启 `Stage Mode`。
+4. 选择来源：
+   - `Stage API`
+   - `Now Playing`
+5. 按需要复制地址、Token，或观察连接状态。
+
+如果你选的是 Stage API，设置页里还会提供：
+
+- 本机地址
+- Token
+- 重新生成 Token
+- 清理状态
+
+## 和 OBS Browser Source 的关系
+
+这三者经常会一起出现，但职责不同：
+
+- Stage API：负责“数据和控制”
+- Now Playing：负责“从别的播放器接数据”
+- OBS Browser Source：负责“把渲染结果交给 OBS”
+
+也就是说，你完全可以这样组合：
+
+- 用 Now Playing 读取外部播放器状态
+- 用 Folia 渲染歌词动画
+- 再通过 OBS Browser Source 把画面送进直播场景
 
 ## 安全说明
 
-- Stage API 仅为桌面本地集成设计，不要暴露到局域网或互联网。
-- 大多数接口都需要 Bearer Token
-- 公开探活接口只有健康检查
+- Stage API 仅为桌面本地集成设计，不要主动暴露到局域网或互联网。
+- 大多数接口都需要 Bearer Token。
+- 通常只有健康检查接口不要求鉴权。
 
-如果你要对接具体请求结构，请看 [Stage API](/developer/stage-api)。
+如果你要对接具体请求结构、状态字段或队列接口，请继续看 [Stage API](/developer/stage-api)。

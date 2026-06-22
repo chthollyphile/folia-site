@@ -9,8 +9,8 @@
 
 - Web / 桌面版开发与部署方式
 - 环境变量和运行前提
-- Stage API 接口说明
-- AI 主题生成接口说明
+- Stage API 与 AI 主题接口说明
+- 从代码结构快速定位功能入口的方法
 
 ## 项目结构概览
 
@@ -31,7 +31,7 @@ Folia 主要由这些部分构成：
 - Electron
 - Tailwind CSS 4
 - Framer Motion
-- Pretext
+- i18next
 
 ## 常用脚本
 
@@ -51,7 +51,7 @@ Folia 主要由这些部分构成：
 
 1. [部署指南](/developer/deploy)
 2. [配置说明](/developer/configuration)
-3. [Stage API](/developer/stage-api)
-4. [AI 主题接口](/developer/ai-theme-api)
-5. [歌词动画视觉效果器](/developer/visualizer)
-
+3. [项目结构速查](/developer/project-map)
+4. [Stage API](/developer/stage-api)
+5. [AI 主题接口](/developer/ai-theme-api)
+6. [歌词动画视觉效果器](/developer/visualizer)

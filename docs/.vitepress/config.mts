@@ -29,7 +29,8 @@ export default defineConfig({
           items: [
             { text: "概览", link: "/guide/" },
             { text: "快速开始", link: "/guide/quick-start" },
-            { text: "桌面版功能", link: "/guide/desktop" }
+            { text: "桌面版功能", link: "/guide/desktop" },
+            { text: "设置说明", link: "/guide/settings" }
           ]
         },
         {
@@ -50,7 +51,8 @@ export default defineConfig({
           items: [
             { text: "开发者概览", link: "/developer/" },
             { text: "部署指南", link: "/developer/deploy" },
-            { text: "配置说明", link: "/developer/configuration" }
+            { text: "配置说明", link: "/developer/configuration" },
+            { text: "项目结构速查", link: "/developer/project-map" }
           ]
         },
         {
