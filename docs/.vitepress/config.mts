@@ -37,6 +37,7 @@ export default defineConfig({
           text: "功能说明",
           items: [
             { text: "播放、歌词与视觉模式", link: "/guide/playback-and-lyrics" },
+            { text: "歌词动画参数说明", link: "/guide/lyrics-animation-tuning" },
             { text: "本地音乐", link: "/guide/local-music" },
             { text: "Navidrome", link: "/guide/navidrome" },
             { text: "Stage 与 Now Playing", link: "/guide/stage-and-now-playing" },
