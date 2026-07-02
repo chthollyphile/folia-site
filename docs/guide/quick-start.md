@@ -52,16 +52,18 @@ Linux 下当前主要提供 x64 架构版本。
 第一次打开后，建议先做这几件事：
 
 1. 在 [设置说明](/guide/settings) 里把你常用的视觉、歌词源和桌面选项看一遍。
-2. 先在设置中确认 AI 提供商与 Key，避免生成主题时报错。
-3. 选一个喜欢的歌词动画模式，再决定是否要开启透明背景或自动隐藏控制栏。
-4. 如果你主要听本地音乐，优先阅读 [本地音乐](/guide/local-music)。
-5. 如果你有私人曲库，优先阅读 [Navidrome](/guide/navidrome)。
-6. 如果你想让外部播放器或外部程序驱动 Folia，阅读 [Stage 与 Now Playing](/guide/stage-and-now-playing)。
+2. 再看一遍 [功能地图与 GUI 位置](/guide/feature-map)，先建立“某个功能在哪个界面里”的整体印象。
+3. 先在设置中确认 AI 提供商与 Key，避免生成主题时报错。
+4. 选一个喜欢的歌词动画模式，再决定是否要开启透明背景或自动隐藏控制栏。
+5. 如果你主要听本地音乐，优先阅读 [本地音乐](/guide/local-music)。
+6. 如果你有私人曲库，优先阅读 [Navidrome](/guide/navidrome)。
+7. 如果你想让外部播放器或外部程序驱动 Folia，阅读 [Stage 与 Now Playing](/guide/stage-and-now-playing)。
 
 ## 常见入口
 
 | 你想做什么 | 建议阅读 |
 | --- | --- |
+| 先弄清楚每个功能在界面哪里 | [功能地图与 GUI 位置](/guide/feature-map) |
 | 调整歌词动效和配色 | [播放、歌词与视觉模式](/guide/playback-and-lyrics) |
 | 查看各类设置项 | [设置说明](/guide/settings) |
 | 导入本地歌曲文件夹 | [本地音乐](/guide/local-music) |

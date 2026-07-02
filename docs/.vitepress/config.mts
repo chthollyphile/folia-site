@@ -30,7 +30,8 @@ export default defineConfig({
             { text: "概览", link: "/guide/" },
             { text: "快速开始", link: "/guide/quick-start" },
             { text: "桌面版功能", link: "/guide/desktop" },
-            { text: "设置说明", link: "/guide/settings" }
+            { text: "设置说明", link: "/guide/settings" },
+            { text: "功能地图与 GUI 位置", link: "/guide/feature-map" }
           ]
         },
         {
