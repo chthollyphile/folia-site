@@ -42,7 +42,8 @@ export default defineConfig({
             { text: "Navidrome", link: "/guide/navidrome" },
             { text: "Stage 与 Now Playing", link: "/guide/stage-and-now-playing" },
             { text: "AI 主题", link: "/guide/ai-theme" },
-            { text: "常见问题", link: "/guide/faq" }
+            { text: "常见问题", link: "/guide/faq" },
+            { text: "macOS App 已损坏", link: "/guide/macos-app-damaged" }
           ]
         }
       ],
@@ -52,8 +53,10 @@ export default defineConfig({
           items: [
             { text: "开发者概览", link: "/developer/" },
             { text: "部署指南", link: "/developer/deploy" },
+            { text: "技术说明", link: "/developer/technical" },
             { text: "配置说明", link: "/developer/configuration" },
-            { text: "项目结构速查", link: "/developer/project-map" }
+            { text: "项目结构速查", link: "/developer/project-map" },
+            { text: "已知非 Bug 问题", link: "/developer/known-non-bug-issues" }
           ]
         },
         {
