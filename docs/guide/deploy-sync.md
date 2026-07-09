@@ -73,7 +73,7 @@ chmod +x install.sh
 
 ---
 
-## 部署方案二：Cloudflare D1 部署 (适合白嫖党)
+## 部署方案二：Cloudflare D1 部署
 
 如果你没有服务器，可以使用 Cloudflare Workers + D1 数据库完全免费部署。
 
