@@ -45,6 +45,7 @@ Linux 下当前主要提供 x64 架构版本。
 建议直接看这份按步骤写好的教程：
 
 - Web 版部署教程：[/guide/deploy-vercel](/guide/deploy-vercel)
+- 如果你还想跨设备同步设置和 AI 主题：[/guide/deploy-sync](/guide/deploy-sync)
 - 如果你想看更偏工程的说明：[/developer/deploy](/developer/deploy)
 
 ## 首次使用建议
@@ -68,5 +69,6 @@ Linux 下当前主要提供 x64 架构版本。
 | 查看各类设置项 | [设置说明](/guide/settings) |
 | 导入本地歌曲文件夹 | [本地音乐](/guide/local-music) |
 | 连接 Navidrome | [Navidrome](/guide/navidrome) |
+| 自建同步服务做多设备同步 | [部署同步服务](/guide/deploy-sync) |
 | 打开遥控窗或录制视频 | [桌面版功能](/guide/desktop) |
 | 连接 Now Playing 或 Stage API | [Stage 与 Now Playing](/guide/stage-and-now-playing) |

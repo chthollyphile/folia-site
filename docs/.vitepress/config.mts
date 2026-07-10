@@ -29,6 +29,7 @@ export default defineConfig({
           items: [
             { text: "概览", link: "/guide/" },
             { text: "快速开始", link: "/guide/quick-start" },
+            { text: "部署同步服务", link: "/guide/deploy-sync" },
             { text: "桌面版功能", link: "/guide/desktop" },
             { text: "设置说明", link: "/guide/settings" },
             { text: "功能地图与 GUI 位置", link: "/guide/feature-map" },
