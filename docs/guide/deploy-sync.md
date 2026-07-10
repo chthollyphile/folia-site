@@ -307,7 +307,9 @@ https://你的服务域名/?token=你的_DASHBOARD_TOKEN
 
 这个页面只用于查看服务状态、数据库统计和最近更新时间。
 
-## 一句话排错表
+```bash
+wrangler d1 create folia-sync
+```
 
 | 问题 | 解决方法 |
 | --- | --- |
