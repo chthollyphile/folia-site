@@ -59,7 +59,8 @@ export default defineConfig({
             { text: "技术说明", link: "/developer/technical" },
             { text: "配置说明", link: "/developer/configuration" },
             { text: "项目结构速查", link: "/developer/project-map" },
-            { text: "已知非 Bug 问题", link: "/developer/known-non-bug-issues" }
+            { text: "已知非 Bug 问题", link: "/developer/known-non-bug-issues" },
+            { text: "旧视图弃用计划", link: "/developer/legacy-view-deprecation" }
           ]
         },
         {
