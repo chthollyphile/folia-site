@@ -81,6 +81,8 @@ AI主题生成按钮在当前歌曲已有主题的情况下，会显示为：
 
 ![alt text](../public/screenshots/guide/basic/image-10.png)
 
+关于如何使用ai主题功能，请跳到 [AI 主题功能快速上手](/guide/basic#ai-主题功能快速上手)。
+
 ## 播放队列
 
 ![alt text](../public/screenshots/guide/basic/image-7.png)
@@ -100,3 +102,38 @@ AI主题生成按钮在当前歌曲已有主题的情况下，会显示为：
 ![alt text](../public/screenshots/guide/basic/image-12.png)
 
 绝大多数功能都可以在这里直接执行，可以输入中文，英文，拼音。具体命令可点击问号按钮查看
+
+# AI 主题功能快速上手
+
+简单来说，AI主题功能会使用当前播放歌曲的歌词内容，生成一个配色主题。该功能要求你必须自己提供一个AI服务的API Key，Folia本身不提供任何AI服务。
+
+当没有接入任何AI服务时，点击生成AI主题功能按钮，会回退到使用封面取色方案，产出一个主题。你可以在快速主题编辑器里修改这个主题。
+
+## 如何配置AI 服务
+
+首先你需要拥有任意一个大模型厂商的API Key，例如：Gemini，OpenAI，DeepSeek，Kimi等。查阅对应模型厂商的文档，获取API Key，以及调用该模型的接口地址和模型名。
+
+下面以 DeepSeek 为例说明一下
+
+你需要在 DeepSeek 的官网注册账号，然后找到其[开放文档](https://api-docs.deepseek.com/zh-cn/)，在其中找到 `OpenAI 兼容接口`的部分，记下来其中的 `接口地址`，`模型名`：
+
+![alt text](../public/screenshots/guide/basic/image-14.png)
+
+这里的接口地址是 `https://api.deepseek.com`, 模型名是 `deepseek-v4-flash` 或 `deepseek-v4-pro` 
+
+
+
+然后打开 https://platform.deepseek.com/api_keys ,点击创建 一个新的API Key：
+
+![alt text](../public/screenshots/guide/basic/image-13.png)
+
+然后保存这个API Key，回到 Folia 的设置里，找到 AI 主题设置，填写对应的 API Key，接口地址和模型名。
+
+![alt text](../public/screenshots/guide/basic/image-15.png)
+
+如果你使用的是其他厂商的服务，查阅对应厂商的文档，获取API Key，接口地址和模型名，然后在 Folia 的设置里填写。
+
+> [!TIP]
+> 如果你使用的是国外厂商的服务，可以打开 为AI使用系统代理，这会让 Folia 使用系统代理访问AI服务，避免网络问题导致的请求失败。
+
+配置完成之后，点击生成AI主题按钮，就可以使用AI服务生成主题了。详见这个[演示视频](https://www.bilibili.com/video/BV1zcTj6AEpu/)
