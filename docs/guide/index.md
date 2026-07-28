@@ -39,7 +39,8 @@ Folia 是一款以歌词为中心的播放器。它把在线音乐、本地音�
 4. [功能地图与 GUI 位置](/guide/feature-map)
 5. [本地音乐](/guide/local-music)
 6. [Navidrome](/guide/navidrome)
-7. [部署同步服务](/guide/deploy-sync)
-8. [Stage 与 Now Playing](/guide/stage-and-now-playing)
+7. [Docker 全栈部署](/guide/deploy-docker)
+8. [部署同步服务](/guide/deploy-sync)
+9. [Stage 与 Now Playing](/guide/stage-and-now-playing)
 
 如果你准备自己部署或二次接入，请继续看 [开发者文档](/developer/)。

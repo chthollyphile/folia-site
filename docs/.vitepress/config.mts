@@ -30,6 +30,7 @@ export default defineConfig({
             { text: "概览", link: "/guide/" },
             { text: "基础使用", link: "/guide/basic" },
             { text: "快速开始", link: "/guide/quick-start" },
+            { text: "Docker 全栈部署", link: "/guide/deploy-docker" },
             { text: "部署同步服务", link: "/guide/deploy-sync" },
             { text: "桌面版功能", link: "/guide/desktop" },
             { text: "设置说明", link: "/guide/settings" },
