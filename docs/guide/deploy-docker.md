@@ -80,7 +80,6 @@ docker compose ps
 | `OPENAI_API_MODEL` | `gpt-4o` | 使用的模型名称 |
 | `OPENAI_API_TEMPERATURE` | `0.7` | AI 主题生成温度 |
 | `FOLIA_FORWARD_CLIENT_IP` | `false` | 是否向音乐平台转发浏览器 IP |
-| `ENABLE_GENERAL_UNBLOCK` | `false` | 网易云 API 的通用解锁开关 |
 | `FOLIA_SYNC_BIND` / `FOLIA_SYNC_PORT` | `0.0.0.0` / `13000` | 同步服务监听地址与端口 |
 | `FOLIA_SYNC_DATA_DIR` | `./data/sync` | Sync Server SQLite 数据持久化目录 |
 | `SYNC_TOKEN` | 无 | 同步客户端 Bearer Token，至少八位，必填 |
