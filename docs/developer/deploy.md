@@ -12,7 +12,8 @@ Folia 有两种主要运行方式：
 你至少需要准备两类外部依赖：
 
 1. 网易云 API 服务
-2. AI 接口配置
+2. （可选）酷狗 API 服务
+3. AI 接口配置
 
 ### 网易云 API 的部署来源
 
@@ -31,6 +32,23 @@ Folia 当前依赖的后端项目是：
 - 默认端口是 `3000`
 - 默认 host 是 `localhost`
 - Vercel 版接口在部分请求中可能需要额外传 `realIP`
+
+### 酷狗 API 的部署
+
+Web 版的酷狗音乐功能使用独立的 [KuGouMusicApi](https://github.com/MakcRe/KuGouMusicApi) 服务，主仓库不会自动提供公共实例。可按该项目文档选择以下方式：
+
+- 直接运行 Node 服务：`npm install` 后执行 `npm run dev`，默认端口为 `3000`
+- 将 KuGouMusicApi fork 到自己的 GitHub 账号后导入 Vercel，`Framework Preset` 选择 `Other`
+
+注意: 本项目使用概念版接口，在 API 项目的环境变量中添加 `platform=lite`
+
+服务部署完成后，在 Folia Web 项目中设置：
+
+```env
+VITE_KUGOU_API_BASE=https://your-kugou-api.example.com
+```
+
+该变量只在 Web 版构建时使用。桌面版在 Electron 主进程中调用内置模块，不需要启动酷狗 HTTP 服务。完整 Docker 说明见[主仓库 Docker 部署文档](https://github.com/chthollyphile/folia-major/tree/main/deploy/docker)。
 
 ### 一键部署到 Vercel
 
@@ -64,6 +82,18 @@ npx wrangler deploy
 - 对 `/api/*` 请求优先交给 Worker 处理
 
 部署到 Cloudflare 时，同样需要配置和 Vercel 一致的环境变量，见 [配置说明](/developer/configuration)。
+
+### Docker 部署
+
+如果希望一次部署前端、网易云 API、酷狗 API 和同步服务，可使用主仓库的 Docker Compose 堆栈：
+
+```bash
+docker compose config
+docker compose pull
+docker compose up -d --wait
+```
+
+Compose 内部会将 `/netease/` 和 `/kugou/` 分别转发到对应 API 容器，因此 Docker 部署不需要另外填写 `VITE_KUGOU_API_BASE`。默认 Web 地址为 `http://NAS-IP:18080`。
 
 ### 本地开发
 

@@ -25,7 +25,8 @@ Folia 大致可以分成四块：
 | visualizer 预览和设置面板 | `src/components/visualizer/VisPlayground.tsx`、`src/components/visualizer/VisPlaygroundSettingsPanel.tsx` |
 | 各个歌词动画模式 | `src/components/visualizer/<mode>/*` |
 | 歌词解析、过滤和适配层 | `src/utils/lyrics/*` |
-| 网易云 / 本地音乐 / Navidrome 服务 | `src/services/*` |
+| 在线音乐统一入口与 Provider 注册 | `src/services/onlineMusic/omni.ts`、`src/services/onlineMusic/providerRegistry.ts` |
+| 网易云 / 酷狗 / 本地音乐 / Navidrome 服务 | `src/services/*` |
 | 共享类型定义 | `src/types.ts` |
 | Stage API 桌面端实现 | `electron/stageApi.cjs` |
 
@@ -57,6 +58,8 @@ Folia 大致可以分成四块：
 2. `src/services/*` 负责不同来源的歌曲与歌词接入。
 3. `src/utils/lyrics/*` 把不同格式歌词整理成统一结构。
 4. `src/components/visualizer/*` 根据统一结构渲染不同动画模式。
+
+在线音乐页面调用则应经由 `src/services/onlineMusic/omni.ts`：它根据当前 Provider 或歌曲 / 集合归属路由到底层服务，并负责 Provider 切换期间的异步响应防护。详见 [Omni 在线音乐服务层](/developer/omni)。
 
 这也是为什么文档站点里“播放说明”和“设置说明”最好分开写：前者偏用户体验，后者偏配置行为，但底层会共用同一套状态与歌词数据。
 

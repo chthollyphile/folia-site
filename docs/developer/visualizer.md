@@ -19,15 +19,20 @@ Visualizer 不直接处理原始 `.lrc`、`.vtt`、`yrc` 或 `qrc` 文本。它�
 
 ::: info 输入边界
 如果你正在写新的 visualizer，优先假设输入已经是可直接渲染的 `LyricData`，不要把歌词格式识别、翻译对齐、纯音乐判断之类逻辑重新塞回 renderer。
-但是有两个情况是需要注意的：
-1. 标点符号：歌词对象绝大多数时候，把标点符号算作一个个独立的 `Word`，因此如果你需要处理标点符号，需要手动进行检测和特殊处理。例如将其与附近的文字合并，或者在动画上跳过它。
-2. 英文单词：歌词对象里，英文单词算作一个整体的 `Word`，而没有拆成单个字母。因此如果你需要做字母级动画，需要在 renderer 内部基于 `word.text` 再细分。
+行内字符动画同样不应在 renderer 里自行推断时间。请使用歌词层提供的 `graphemeTiming` 工具；它会把解析器的词级或 TTML 音节级 timing 映射到可渲染的 grapheme（用户感知的字符）时间轴，并处理空格、标点、组合字符和重复文本。
 :::
 
 主项目里的核心类型大致如下：
 
 ```ts
 interface Word {
+  text: string;
+  startTime: number;
+  endTime: number;
+  syllables?: LyricSyllable[];
+}
+
+interface LyricSyllable {
   text: string;
   startTime: number;
   endTime: number;
@@ -53,7 +58,7 @@ interface LyricData {
 
 可以把它理解成三层：
 
-- `Word`：最小时间单位，给逐字或逐词动画使用
+- `Word`：解析器给出的词级时间单位；TTML 时可附带更细的 `syllables`
 - `Line`：渲染时最常用的单位，一般以“当前句 / 下一句”为核心
 - `LyricData`：整首歌的歌词对象
 
@@ -68,6 +73,36 @@ interface LyricData {
 ::: warning 关于 `renderHints`
 `renderHints` 不是可有可无的附加信息。对需要做切句、尾迹、退场动画的模式来说，它基本属于运行时契约的一部分。
 :::
+
+## 字符时间轴：由歌词流水线提供
+
+Visualizer 可以按字符做排版或动画，但不能再在 renderer 中按 `word.text` 的长度二次切分并猜测时间。统一入口位于 `src/utils/lyrics/graphemeTiming.ts`：
+
+- `buildWordGraphemeTimings(word, wordIndex)`：用于已经按 `Word` 布局的模式。
+- `buildLineGraphemeTimeline(line)`：用于要按整句文本排版的模式；它会把 `Line.words` 对齐回 `fullText`，补齐空格和标点。
+
+时间来源按优先级工作：TTML 转换层会把原始音节 / 音素时间保留为 `Word.syllables`，工具会将每个音节内部的 grapheme 均分到该音节时间段；没有音节时间时，才会将该 `Word` 的 grapheme 均分到 `word.startTime` 到 `word.endTime`。如果整行没有 `words`，才会均分整行时间。
+
+因此，Visualizer 的职责是基于已给出的 grapheme timing 设计 reveal、pass、trail、位置和颜色曲线，不是重新决定字符的时间边界。若实现仅需词级效果，直接消费 `Word` timing 即可。
+
+::: warning 不要重新切分时间
+可以为了布局用 `Intl.Segmenter` 或 `Array.from` 取得显示字符，但不要据此重新计算字符开始或结束时间，也不要把英文按字符串长度再次均分。应保留 `graphemeTiming` 返回的 `startTime` / `endTime`。
+:::
+
+## 关键词着色
+
+AI 主题可以通过 `theme.wordColors` 为关键词或短语提供颜色。Visualizer 不应自行用字符串包含关系匹配关键词，而应复用 `src/components/visualizer/wordColoring.ts`，以保持中英文、重复短语、重叠范围和 fallback 的行为一致。
+
+- 按 `Word` 渲染时，调用 `resolveWordColor(word.text, theme.wordColors, theme.accentColor)`。
+- 按字符、grapheme 或自定义 token 渲染时，先使用 `prepareWordColorMatchers` 和 `buildWordColorRangesFromMatchers` 生成文本范围，再用 `resolveTokenColorMap` 将范围映射到实际 token。
+
+关键词着色只改变颜色，不应覆盖逐字 timing、当前行状态或副歌效果；找不到匹配项时必须回退到模式原有的主题色。
+
+## 副歌行是额外的视觉语义
+
+歌词流水线会在进入 Visualizer 前补充 `Line.isChorus`，并可能附带 `chorusEffect`（`bars`、`circles` 或 `beams`）。标记可来自 TTML 的 `songPart="chorus"`、Provider 给出的副歌时间区间，或重复文本检测。
+
+若模式支持副歌行，应为激活中的副歌准备独立于普通行的强化表现，例如更强的 glow、不同的排版、额外粒子、色彩混合或更明显的音频响应。`chorusEffect` 可以作为模式自己的变体提示，但副歌效果不得改变行索引和字符时间轴；缺少 `isChorus` 或 `chorusEffect` 时必须自然回退为普通行，不能影响正常歌词渲染。
 
 下面是一段真实的统一歌词对象样例。这个结果是直接用主项目现有歌词流水线解析 `songId: 2018447139` 后得到的，流程包括：
 
@@ -171,7 +206,7 @@ interface LyricData {
 1. 第一句 `......`
    这不是~~压缩毛巾~~原歌词，而是流水线在间奏空窗期补出的占位行，visualizer 应该信任歌词流水线产生的 `lines`是稳定的结构。
 2. 第二句 `グルグル 機械仕掛けのun deux trois`
-   这句同时包含 CJK 和拉丁文本。可以看到 `words` 里前半段大多是单字，但 `deux`、`trois` 直接以整词出现，而不是拆成单个字母。所以如果某个 visualizer 想做字母级动画，需要在 renderer 内部基于 `word.text` 再细分，不能假定 parser 一定会把拉丁字母拆开。仓库库有专门的 nonCJK 检测工具可以参考。
+   这句同时包含 CJK 和拉丁文本。`words` 的粒度可随来源而不同，`deux`、`trois` 仍可能是整词；需要字符级效果时应调用 `buildWordGraphemeTimings` 或 `buildLineGraphemeTimeline`，而不是让 renderer 自己重建字母时间。
 3. 第三句 `絡まる 糸 解いて 動き出す`
    这句的 `words` 里仅有 CJK 字符，但 `fullText` 里仍然包含空格。也就是说，`fullText` 不一定等于 `words.map(w => w.text).join('')`，它更接近“原始歌词文本”，而 `words` 则是为了动画方便切分过的时间片段。两者不一定完全对齐，renderer 需要考虑如何处理这种不对齐的情况。
 
@@ -190,12 +225,8 @@ interface LyricData {
 3. visualizer 真正关心的不只是 `startTime` / `endTime`，还包括 `renderHints` 给出的过场时序。
 :::
 
-::: warning 英文单词和字母级动画
-`words` 里的最小单位不一定是单个字符。像 `un`、`deux`、`trois` 这样的拉丁文本，往往会直接以整词进入统一对象。
-
-如果某个 visualizer 需要字母级 reveal、逐字母抖动或字符级排版，应该在 renderer 内部基于 `word.text` 再细分，而不是假定 parser 已经拆到单字母。
-
-反之，类似 `It's` 这样的英文单词，parser 可能会把它切成 `It` 和 `'` 和 `s` 三个 `Word`，如果 visualizer 对于标点换行、连字符处理比较敏感，也需要在 renderer 里做额外的合并或特殊处理。
+::: warning 词与字符的粒度不同
+`words` 不保证是单字符；拉丁文本通常是整词，TTML 还可能在一个词上附带多个 `syllables`。字符级模式应通过 `graphemeTiming` 获取统一时间轴。标点、空格、连字符等无法映射到词的字符会得到零时长占位 timing，布局可以保留它们，动画则应按模式需要平滑处理。
 :::
 
 如果你在调试 visualizer 的切句、尾迹或下一句预热问题，这类真实对象会比只看原始 `.lrc` 更有帮助。
@@ -208,6 +239,7 @@ interface LyricData {
 歌词文本 / 在线接口 / 本地侧车文件
 -> parserCore / 各种 adapter
 -> 统一 LyricData
+-> graphemeTiming（按需构建字符时间轴）
 -> renderHints 标注与迁移
 -> App / 播放控制器
 -> VisualizerRenderer
@@ -218,9 +250,10 @@ interface LyricData {
 
 1. `parserCore` 按格式解析歌词，产出 `LyricData`
 2. 本地歌词、Navidrome、Now Playing、Stage API 等来源通过各自 adapter 接到同一条歌词流水线
-3. 流水线会补齐 `renderHints`
-4. `App.tsx` 把 `currentTime`、`currentLineIndex`、`lines`、主题、音频能量一起传给 `VisualizerRenderer`
-5. `VisualizerRenderer` 再根据当前模式，把同一份共享 props 交给对应模式组件
+3. TTML 转换会保留音节 / 音素 timing；字符级模式按需经 `graphemeTiming` 构建时间轴
+4. 流水线会补齐 `renderHints` 和副歌标记
+5. `App.tsx` 把 `currentTime`、`currentLineIndex`、`lines`、主题、音频能量一起传给 `VisualizerRenderer`
+6. `VisualizerRenderer` 再根据当前模式，把同一份共享 props 交给对应模式组件
 
 也就是说，visualizer 应该把自己当成“渲染层”，而不是“歌词解析层”。
 
@@ -330,3 +363,17 @@ interface LyricData {
 ::: warning 不推荐的接入方式
 不要为了加一个新模式，直接去 `VisualizerRenderer.tsx` 里手写一串 `if / switch` 分支。当前架构已经把模式发现收敛到 `entry.tsx + registry.tsx` 这条链路里了。
 :::
+
+## Visualizer 贡献规则
+
+Visualizer 模式允许自由发挥创意；项目不会要求每个模式都使用相同的排版或动画语言。逐字 / 字符动画、关键词着色和副歌行强化都是可选的高级能力，不是新模式的合并前置条件，但强烈鼓励在设计合适时尽可能支持全部三项，并为未提供相关歌词元数据的情况保留稳定回退。
+
+以下设计属于反模式，相关 PR 不会被主仓库合并：
+
+- 完全照抄 Apple Music 的视觉方案，未形成明显差异化设计。
+- 大量依赖必须随安装包分发的二进制素材。
+- 完全不使用歌词文字作为视觉内容。
+- 存在严重性能问题或持续阻塞主线程。
+- 无视 Dual Theme 的主题配色与明暗切换，使用固定颜色或只适配单一主题。
+
+提交前应在真实播放页与预览页验证：歌词可读性、无歌词 / 无高级元数据时的回退、明暗主题切换，以及长歌词和高频切句下的主线程与帧率表现。

@@ -15,6 +15,8 @@
 1. 一个部署 Folia 前端的网站
 2. 一个可用的网易云 API 地址
 
+如果要使用 Web 版的酷狗音乐功能，还需要额外准备一个可用的 KuGouMusicApi 地址。
+
 如果你还想使用 AI 主题，还要再准备：
 
 3. 一组 AI 接口配置
@@ -248,6 +250,44 @@ http://localhost:3000/
 - 你自己有云服务器
 - 你愿意长期维护一个单独的 Node 服务
 
+## 可选：部署酷狗 API
+
+Web 版的酷狗搜索、播放、歌词和登录依赖独立的 [KuGouMusicApi](https://github.com/MakcRe/KuGouMusicApi)。主仓库不提供默认公共地址；不配置时，网易云和其他已启用的功能仍可使用。
+
+### 方法 A：部署到 Vercel
+
+1. Fork [KuGouMusicApi](https://github.com/MakcRe/KuGouMusicApi) 到自己的 GitHub 账号。
+2. 在 Vercel 中导入这个 fork 的仓库。
+3. `Framework Preset` 选择 `Other`，然后点击部署。
+4. 本项目使用概念版接口，在 API 项目的环境变量中添加 `platform=lite`。
+
+部署完成后记下服务根地址，例如：
+
+```text
+https://your-kugou-api.vercel.app
+```
+
+### 方法 B：自托管 Node 服务
+
+```bash
+git clone https://github.com/MakcRe/KuGouMusicApi.git
+cd KuGouMusicApi
+npm install
+npm run dev
+```
+
+服务默认监听 `3000` 端口。若 Folia 和 API 不在同一台机器，请使用服务器的公网域名或 IP；生产环境建议通过 HTTPS 反向代理提供服务。
+
+### 在 Folia 中填写地址
+
+在 Folia Web 项目的 Vercel `Environment Variables` 中添加：
+
+```bash
+VITE_KUGOU_API_BASE=https://your-kugou-api.example.com
+```
+
+修改环境变量后需要重新部署 Folia。若使用主仓库 Docker Compose 部署，酷狗 API 已由 `kugou-api` 容器提供，并通过 `/kugou/` 路由接入，不需要单独填写这个变量；详见[主仓库 Docker 部署说明](https://github.com/chthollyphile/folia-major/tree/main/deploy/docker)。
+
 ## API 部署完之后
 
 当你已经拿到 API 地址后：
@@ -306,6 +346,7 @@ VITE_NETEASE_API_BASE=你的网易云API地址
 | 变量名 | 作用 | 是否必须 |
 | --- | --- | --- |
 | `VITE_NETEASE_API_BASE` | 网易云 API 地址 | 是 |
+| `VITE_KUGOU_API_BASE` | KuGouMusicApi 地址；不使用酷狗时可留空 | 否 |
 | `VITE_AI_PROVIDER` | AI 提供商，`google` 或 `openai` | 是 |
 
 #### 只有使用 Gemini 时才需要

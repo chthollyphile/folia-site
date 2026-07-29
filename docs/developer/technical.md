@@ -105,6 +105,7 @@ vercel env pull .env.local
 | 变量名 | 描述 | 是否必需 |
 | --- | --- | --- |
 | `VITE_NETEASE_API_BASE` | 网易云音乐 API 实例地址 | 是 |
+| `VITE_KUGOU_API_BASE` | Web 版 KuGouMusicApi 实例地址；Electron 不使用此项 | 否，默认留空 |
 | `VITE_AI_PROVIDER` | AI 提供商，`google` 或 `openai` | 是 |
 | `GEMINI_API_KEY` | Gemini API Key | 使用 Gemini 时需要 |
 | `OPENAI_API_KEY` | OpenAI 兼容 API Key | 使用 OpenAI兼容接口 时需要 |
@@ -115,9 +116,14 @@ Gemini 示例：
 
 ```env
 VITE_NETEASE_API_BASE=http://localhost:3000
+VITE_KUGOU_API_BASE=
 VITE_AI_PROVIDER=google
 GEMINI_API_KEY=your_google_gemini_api_key
 ```
+
+Web 版使用酷狗时，需要先部署 [KuGouMusicApi](https://github.com/MakcRe/KuGouMusicApi)，再将服务地址填入 `VITE_KUGOU_API_BASE`。该变量没有默认公共实例；Electron 版会在主进程中直接调用内置模块。
+
+注意: 本项目使用概念版接口，在 API 项目的环境变量中添加 `platform=lite`
 
 OpenAI 兼容接口示例：
 
@@ -169,6 +175,7 @@ vercel dev
 | visualizer 预览和设置面板 | `src/components/visualizer/VisPlayground.tsx`、`src/components/visualizer/VisPlaygroundSettingsPanel.tsx` |
 | visualizer 模式实现 | `src/components/visualizer/<mode>/*` |
 | 歌词解析和渲染提示 | `src/utils/lyrics/*` |
+| 在线音乐统一入口与 Provider 路由 | `src/services/onlineMusic/omni.ts`、`src/services/onlineMusic/providerRegistry.ts` |
 | 本地音乐、Navidrome、网易云服务 | `src/services/*` |
 | 共享类型和默认 tuning | `src/types.ts` |
 

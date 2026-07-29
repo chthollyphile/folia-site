@@ -60,6 +60,7 @@ export default defineConfig({
             { text: "技术说明", link: "/developer/technical" },
             { text: "配置说明", link: "/developer/configuration" },
             { text: "项目结构速查", link: "/developer/project-map" },
+            { text: "Omni 在线音乐服务层", link: "/developer/omni" },
             { text: "已知非 Bug 问题", link: "/developer/known-non-bug-issues" }
           ]
         },

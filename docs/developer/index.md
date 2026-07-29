@@ -10,6 +10,7 @@
 - Web / 桌面版开发与部署方式
 - 环境变量和运行前提
 - Stage API 与 AI 主题接口说明
+- 在线音乐 Omni 服务层与 Provider 扩展约定
 - 从代码结构快速定位功能入口的方法
 
 ## 项目结构概览
@@ -54,4 +55,5 @@ Folia 主要由这些部分构成：
 3. [项目结构速查](/developer/project-map)
 4. [Stage API](/developer/stage-api)
 5. [AI 主题接口](/developer/ai-theme-api)
-6. [歌词动画视觉效果器](/developer/visualizer)
+6. [Omni 在线音乐服务层](/developer/omni)
+7. [歌词动画视觉效果器](/developer/visualizer)
