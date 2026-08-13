@@ -53,6 +53,86 @@ Folia 为本地音乐提供了丰富的整理功能
 > **使用更好的内嵌元数据**
 > 虽然你可以通过 Folia 自动补全本地歌曲的信息，但更合理的做法是使用专用的元数据编辑工具来编辑本地歌曲的内嵌元数据，然后再导入 Folia。这样可以避免 Folia 无法识别的格式，编码错误等导致的问题。
 
+### 自动聚合
+
+歌曲导入完成之后，会自动按照所在文件夹，专辑，艺术家进行聚合。你可以在右侧选择当前查看的聚合视图：
+
+![alt text](../public/screenshots/guide/local-music/image-12.png)
+
+![alt text](../public/screenshots/guide/local-music/image-13.png)
+
+### 歌曲文件夹批量管理
+
+在本地文件夹视图中，你可以快速的对当前曲库的文件夹进行操作。点击文件夹卡片顶部的 `全部` 按键, 即可打开文件夹海报墙：
+
+![alt text](../public/screenshots/guide/local-music/image-14.png)
+
+这里的操作与其他海报墙不同，点击顶部标题，会展开左侧的文件夹树：
+
+![alt text](../public/screenshots/guide/local-music/image-15.png)
+
+这里会按照文件夹的层级结构，列出整个曲库的所有文件夹。你可以展开并点选其中的部分文件夹，被选中的文件夹将会在主视图中高亮显示。与此同时，这些文件夹内包含的所有歌曲也会被选中，你可以对这些文件夹/歌曲进行批量操作：
+
+- 从曲库中移除（不会删除硬盘上的文件）
+- 立刻开始播放
+- 添加到播放列表
+- 用这些歌曲创建新的歌单
+
+![alt text](../public/screenshots/guide/local-music/image-16.png)
+
+你也可以直接从主视图中点选文件夹，被选中的文件夹也会在左侧目录树中被选中。在目录树中选中文件夹，会自动选中其子文件夹。而在主视图中选中文件夹，则不会自动选中其子文件夹。
+
+![alt text](../public/screenshots/guide/local-music/image-17.png)
+
+如果这个列表不够宽，你可以点击展开按钮将其展开：
+
+![alt text](../public/screenshots/guide/local-music/image-22.png)
+
+选中状态分为4种：
+
+- **未选中**：当前文件夹，子文件夹，以及当前文件夹根目录内部的所有歌曲都未被选中。
+
+![alt text](../public/screenshots/guide/local-music/image-18.png)
+
+- **完全选中**：当前文件夹，子文件夹，以及当前文件夹根目录内部的所有歌曲都被选中。
+
+![alt text](../public/screenshots/guide/local-music/image-19.png)
+
+- **子目录选中**：当前文件夹本身未被选中，但其子文件夹被选中。
+
+![alt text](../public/screenshots/guide/local-music/image-20.png)
+
+- **仅当前目录选中**：当前文件夹本身未被选中，但其根目录内部的歌曲被选中。
+
+![alt text](../public/screenshots/guide/local-music/image-21.png)
+
+在目录树中点击文件夹的复选框，可以切换当前文件夹的选中状态。**仅当前目录选中**的状态，只在一种情况下会出现：当前文件夹包含歌曲，且包含子目录。这个状态表示当前文件夹的根目录内部的歌曲被选中，但其子目录未被选中。
+
+在这里也可以使用海报墙搜索功能（按下任意键触发，或滑动右下角按钮），进行搜索过滤：
+
+![alt text](../public/screenshots/guide/local-music/image-23.png)
+
+你可以搜索出需要的文件夹，点选，然后重新搜索。被选中的文件夹**不会因为重新搜索而取消选中状态**。你可以在搜索结果中继续点选其他文件夹，直到选中所有需要的文件夹。
+
+### 歌单导入导出
+
+![alt text](../public/screenshots/guide/local-music/image-24.png)
+
+你可以在播放中将播放队列保存为歌单，或者对本地文件夹/艺术家/专辑批量创建歌单。
+
+![alt text](../public/screenshots/guide/local-music/image-25.png)
+
+这些歌单可以被导出为 .m3u8 文件保存到本地，或者导入到 Folia 中。
+
+![alt text](../public/screenshots/guide/local-music/image-26.png)
+
+文件中的歌曲路径为相对于 **曲库根目录** 的相对路径。如需要在其他软件中使用，请确保曲库根目录一致，或者手动修改 .m3u8 文件中的路径。
+
+![alt text](../public/screenshots/guide/local-music/image-27.png)
+
+点击右侧导入歌单按钮，则可以将本地的 .m3u8 歌单导入到 Folia 中。导入时，Folia 会搜索当前曲库中是否存在相同的绝对路径/相对路径的歌曲文件，如果找到了，就会将其加入到歌单中。如果路径不匹配，或文件不存在，则会提示导入失败。
+
+> **提示**：请先确保你已经导入了本地音乐文件夹，并且曲库根目录与歌单中的路径一致，否则无法导入歌单。此外请确保导入的歌单文件是 UTF-8 编码，否则可能会出现乱码。
 
 ### 补全歌曲信息
 
