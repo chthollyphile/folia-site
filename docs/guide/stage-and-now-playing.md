@@ -58,17 +58,38 @@ ws://localhost:9863/api/ws/lyric
 
 这很适合“你已经有主播放器，但不满意它的歌词展示效果”的情况。
 
+## Nexus PlayerCap 模式
+
+除了 Now Playing，Folia 还可以接入 Nexus PlayerCap 作为外部歌词来源。在集成设置里填写 PlayerCap 地址即可，留空时默认使用本机 `localhost:8765`，失焦后自动保存并重连。
+
+这个模式额外提供几个选项：
+
+- 播放器：选择跟随哪一个播放器，或`跟随默认`。
+- 时间轴：`play_time` 会按 PlayerCap 内针对各播放器调教过的提前量提前显示歌词，并保留 offset；`timestamp` 使用原始时间轴 on-beat，忽略提前量，可以再用歌词偏移手动微调。
+- 忽略播放器清除：暂停、空闲或关窗时保留歌词，只在真正切换播放器时刷新。
+
 ## 它们的区别
 
 | 模式 | 谁负责播放音频 | 谁负责提供数据 | 更适合什么 |
 | --- | --- | --- | --- |
 | Stage API | 视你的外部程序集成方式而定 | 你自己的程序或脚本 | 深度定制、自动化、二次开发 |
 | Now Playing | 原播放器 | Now Playing 服务 | 已有主播放器，只想把 Folia 当显示层 |
+| Nexus PlayerCap | 原播放器 | PlayerCap | 已经在用 PlayerCap，想让 Folia 跟随它的歌词时间轴 |
 
 更简单地说：
 
 - Stage API 偏“你自己控制整个流程”
-- Now Playing 偏“你已经有流程，只借用 Folia 渲染画面”
+- Now Playing 和 PlayerCap 偏“你已经有流程，只借用 Folia 渲染画面”
+
+## 只想读歌词的话
+
+如果你的需求反过来——不是往 Folia 推数据，而是想把 Folia 当前的歌词读出去给别的程序用——不需要开 Stage API。桌面版另有一个更轻的只读接口：
+
+```text
+GET http://127.0.0.1:32109/v1/lyric
+```
+
+它固定端口、无需鉴权、只监听回环地址，返回当前歌词的精简 JSON。开关在 `设置 > 选项 > 集成设置 > 歌词接口`，字段说明见[歌词接口](/developer/lyric-api)。
 
 ## 如何启用
 
@@ -78,6 +99,7 @@ ws://localhost:9863/api/ws/lyric
 4. 选择来源：
    - `Stage API`
    - `Now Playing`
+   - `Nexus PlayerCap`
 5. 按需要复制地址、Token，或观察连接状态。
 
 如果你选的是 Stage API，设置页里还会提供：
@@ -92,7 +114,7 @@ ws://localhost:9863/api/ws/lyric
 这三者经常会一起出现，但职责不同：
 
 - Stage API：负责“数据和控制”
-- Now Playing：负责“从别的播放器接数据”
+- Now Playing / Nexus PlayerCap：负责“从别的播放器接数据”
 - OBS Browser Source：负责“把渲染结果交给 OBS”
 
 也就是说，你完全可以这样组合：

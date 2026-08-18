@@ -1,13 +1,27 @@
 # Folia 技术与开发说明
 
-这份文档收纳仓库 README 中较细的部署、开发、桌面端和技术栈说明。更完整的使用指南也可以访问专门的文档站点：
+这份文档收纳主仓库 README 中较细的部署、开发、桌面端和技术栈说明，与主仓库 `docs/technical.md` 保持同步。更完整的使用指南见[用户指南](/guide/)。
 
-- [Folia Guide](https://folia-site.vercel.app/guide/)
-- [Stage API 文档](/developer/stage-api)
+相关文档：
+
+- [Stage API](/developer/stage-api)
+- [歌词接口](/developer/lyric-api)
 
 ## 桌面端说明
 
 桌面版内置前后端运行环境，适合希望即装即用的用户。最新版本请前往 [Releases 页面](https://github.com/chthollyphile/folia-major/releases)。
+
+### 发布与更新通道
+
+| 通道 | 面向对象 | 更新来源 | 网盘下载 |
+| --- | --- | --- | --- |
+| Realeco | 正式版 | `latest` | 提供 |
+| Limo | Nightly | `beta`，也可升级到 Realeco | 不提供 |
+| Cielo | Canary | `alpha`，也可升级到 Limo / Realeco | 不提供 |
+
+Realeco 发布仅在 `main` 修改根目录 `realeco-release` 时触发。自动触发时，该文件必须只包含单行 `A.B.C`，并且必须同时与 `package.json` 版本、当前完整提交信息 `release: vA.B.C` 严格一致。手动触发作为应急入口，会跳过这两项一致性检查，直接使用当前 HEAD 的 `package.json.version`（仍必须是稳定的 `A.B.C`）打包。工作流创建草稿 Release；维护者在 GitHub 手动公开后，Realeco 客户端才会发现更新。
+
+Cielo 的 `[canary]` 推送会更新滚动的 `cielo` prerelease，供 Cielo 通道客户端获取更新。手动运行 Cielo 工作流时可选择 `branch-release`，为当前分支和提交创建独立的 `cielo-<branch>-<sha>` prerelease，供人工下载和回归；该 Release 不参与客户端自动更新。选择 `artifacts` 则不创建 Release，只将各平台构建产物保留 14 天。
 
 ### Linux 获取方式
 
@@ -22,6 +36,16 @@ yay -S folia-major-bin
 4. 其他发行版：下载 `tar.gz`，解压后直接运行 `folia-major`
 
 `tar.gz` 包中附带图标与 `.desktop` 模板，可按需手动创建桌面启动项。
+
+### Quickshell 歌词插件
+
+对于 omarchy 4 / quickshell 用户，主仓库提供一个简单的顶部歌词插件：[lia.lines](https://github.com/chthollyphile/lia.lines)
+
+omarchy 用户可从官方插件市场获取：
+
+<https://omarchyplugins.com/plugin.html?id=lia.folia-lyrics>
+
+该插件连接 folia-v1-lyric 接口，在顶部状态栏查看歌词，以及进行暂停 / 播放操作。Folia 没有播放时，它也可以作为简易 MPRIS 组件显示媒体信息。接口本身见[歌词接口](/developer/lyric-api)。
 
 ### Hyprland / Wayland 遥控窗
 
@@ -53,6 +77,8 @@ windowrule {
 
 如果使用前端版本的话，需要先自行部署该 API 服务。
 
+QQ 音乐是可选音源，由 npm 包 `@yakult-green-tea/qq-music-api` 提供。它需要一个常驻的 Node 进程（Docker 容器、裸 Node，或 Electron 主进程内嵌），因为原生扫码依赖 MQTT over WebSocket 长连线与进程内会话，暂不支持 Cloudflare Workers 与 Vercel Serverless。部署方式、环境变量、装置状态与 serverless 的完整说明见主仓库 [`deploy/docker/qq-api/README.md`](https://github.com/chthollyphile/folia-major/tree/main/deploy/docker/qq-api)。Web 版把 `VITE_QQ_API_BASE` 指向实例地址即可；Electron 版在主进程内直接启动该包，不需要单独部署。
+
 ### AI 能力
 
 Folia 当前支持以下两类 AI 提供方式：
@@ -68,6 +94,16 @@ Folia 提供了从外部与播放器进行交互的 Stage API，从而可以实�
 
 具体可参考 [Stage API 文档](/developer/stage-api)。
 
+### 歌词接口
+
+Electron 桌面端可在“连接与集成”中启用歌词接口。启用后，Folia 仅在回环地址提供无需鉴权的固定接口：
+
+```text
+GET http://127.0.0.1:32109/v1/lyric
+```
+
+接口返回当前歌词的精简 JSON，并在顶层 `offset` 字段中携带用户设置的歌词时间偏移（毫秒）；当前没有歌词时返回 `null`。请求、响应结构、字段说明和调用示例见[歌词接口文档](/developer/lyric-api)。
+
 ### 一键部署到 Vercel
 
 如果你希望快速上线 Web 版本，可以直接通过下方入口创建 Vercel 项目：
@@ -79,6 +115,8 @@ Folia 提供了从外部与播放器进行交互的 Stage API，从而可以实�
 ### 本地开发
 
 推荐使用 `vercel dev`，这样本地环境会更接近线上部署行为。
+
+本项目要求 Node.js 24 或更高版本。
 
 #### 1. 安装依赖
 
@@ -105,12 +143,16 @@ vercel env pull .env.local
 | 变量名 | 描述 | 是否必需 |
 | --- | --- | --- |
 | `VITE_NETEASE_API_BASE` | 网易云音乐 API 实例地址 | 是 |
-| `VITE_KUGOU_API_BASE` | Web 版 KuGouMusicApi 实例地址；Electron 不使用此项 | 否，默认留空 |
+| `VITE_KUGOU_API_BASE` | Web 版的 KuGouMusicApi 实例地址；Electron 不使用此项 | 否，默认留空 |
+| `VITE_QQ_API_BASE` | QQ 音乐 API 实例地址；留空时 QQ 入口可见但不可用 | 否，默认留空 |
 | `VITE_AI_PROVIDER` | AI 提供商，`google` 或 `openai` | 是 |
 | `GEMINI_API_KEY` | Gemini API Key | 使用 Gemini 时需要 |
 | `OPENAI_API_KEY` | OpenAI 兼容 API Key | 使用 OpenAI兼容接口 时需要 |
 | `OPENAI_API_URL` | OpenAI 兼容接口地址，可填 base URL 或完整 `chat/completions` 地址 | 使用 OpenAI兼容接口 时需要 |
 | `OPENAI_API_MODEL` | 模型名，例如 `gpt-4o`、`gpt-4.1-mini`、`deepseek-v4-flash` | 使用 OpenAI兼容接口 时需要 |
+| `OPENAI_API_TEMPERATURE` | 温度，范围 `0`–`2`；留空或无效时默认使用 `0.7` | 否 |
+
+注意：部分模型对于温度参数有特殊要求，例如 `kimi-k3` 要求温度必须为 `1`。
 
 Gemini 示例：
 
@@ -121,9 +163,34 @@ VITE_AI_PROVIDER=google
 GEMINI_API_KEY=your_google_gemini_api_key
 ```
 
-Web 版使用酷狗时，需要先部署 [KuGouMusicApi](https://github.com/MakcRe/KuGouMusicApi)，再将服务地址填入 `VITE_KUGOU_API_BASE`。该变量没有默认公共实例；Electron 版会在主进程中直接调用内置模块。
+Web 版要使用酷狗时，需要自行部署 [KuGouMusicApi](https://github.com/MakcRe/KuGouMusicApi) 并填写 `VITE_KUGOU_API_BASE`。该变量没有默认公共实例；开发调试时可在 `.env.local` 中临时指向调试服务。Electron 版在主进程中直接调用内置的 KuGouMusicApi Node 模块，不会再启动一个酷狗 HTTP 服务。
 
 注意: 本项目使用概念版接口，在 API 项目的环境变量中添加 `platform=lite`
+
+Electron 的酷狗登录与账号刷新日志位于 `%APPDATA%\Folia\logs\kugou-provider.log`。日志只记录请求阶段、状态、字段名和错误摘要，token、Cookie、userid、dfid 会被脱敏。
+
+本机同时验收 Folia、网易云扫码和 QQ 扫码时，Vite 使用 `3000`，因此网易云 API 应改用 `3300`，QQ API 使用 `3200`。在 `folia-major/.env.local` 设置：
+
+```env
+VITE_NETEASE_API_BASE=http://localhost:3300
+VITE_QQ_API_BASE=http://localhost:3200
+```
+
+然后分别打开三个终端窗口并保持运行：
+
+```powershell
+# qq-music-api repo
+$env:PORT = '3200'
+npm start
+
+# folia-major repo：网易云 API
+npx cross-env PORT=3300 api
+
+# folia-major repo：前端
+npm run dev
+```
+
+修改 `.env.local` 后必须重启 Vite。关闭对应窗口或按 `Ctrl+C` 会停止服务。
 
 OpenAI 兼容接口示例：
 
@@ -133,6 +200,7 @@ VITE_AI_PROVIDER=openai
 OPENAI_API_KEY=your_api_key
 OPENAI_API_URL=https://api.deepseek.com
 OPENAI_API_MODEL=deepseek-v4-flash
+OPENAI_API_TEMPERATURE=0.7
 ```
 
 如果你使用的是 OpenAI 官方接口，也可以这样写：
@@ -143,6 +211,7 @@ VITE_AI_PROVIDER=openai
 OPENAI_API_KEY=your_api_key
 OPENAI_API_URL=https://api.openai.com/v1
 OPENAI_API_MODEL=gpt-4o
+OPENAI_API_TEMPERATURE=0.7
 ```
 
 #### 3. 启动开发环境
@@ -156,8 +225,11 @@ vercel dev
 | 命令 | 说明 |
 | --- | --- |
 | `npm run dev` | 启动 Vite 开发服务器 |
-| `npm run build` | 构建 Web 版本 |
+| `npm run build` | 编译 `api-ts/` 到 `api/` 并构建 Web 版本 |
 | `npm run preview` | 预览构建结果 |
+| `npm run typecheck` | 全项目类型检查 |
+| `npm run test` | 运行 Vitest 单元测试 |
+| `npm run test:ui` | 运行 Playwright UI 测试 |
 | `npm run dev:electron` | 启动 Electron 开发模式 |
 | `npm run dev:electron:dist` | 构建后以桌面模式运行 |
 | `npm run build:electron` | 打包桌面端应用 |
@@ -179,15 +251,21 @@ vercel dev
 | 本地音乐、Navidrome、网易云服务 | `src/services/*` |
 | 共享类型和默认 tuning | `src/types.ts` |
 
-新增设置时遵守项目 skill：视觉相关设置需要进入外观页的配置导入导出；功能性设置和可执行动作需要注册到 command palette。
+更细的入口地图见[项目结构速查](/developer/project-map)。
+
+新增设置时遵守主仓库 skill：视觉相关设置需要进入外观页的配置导入导出；功能性设置和可执行动作需要注册到 command palette。
 
 ## 技术栈
 
+以下版本取自主仓库当前 `package.json`：
+
 - [NeteaseCloudMusicApiEnhanced](https://github.com/NeteaseCloudMusicApiEnhanced/api-enhanced)
 - React 19
-- Vite 6
-- TypeScript
+- Vite 8
+- TypeScript 7
 - Tailwind CSS 4
-- Framer Motion
-- Electron
-- i18next
+- Framer Motion 13
+- Electron 43
+- Zustand 5 / Dexie 4
+- i18next 26
+- Three.js（Diorama 模式）、Pixi.js（Sonnet 模式）

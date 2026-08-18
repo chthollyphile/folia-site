@@ -19,7 +19,7 @@
 
 ### macOS
 
-当前主要提供 Apple Silicon 的 `.dmg` 安装包。
+提供 `.dmg` 与 `.zip` 两种包，均覆盖 Intel（`x64`）和 Apple Silicon（`arm64`）。
 
 如果第一次打开被系统拦截，可以到“系统设置/安全性与隐私”里允许该应用继续运行，或者参考 [macOS App 已损坏指南](/guide/macos-app-damaged)。
 
@@ -178,6 +178,19 @@ windowrule {
 
 更多见 [Stage 与 Now Playing](/guide/stage-and-now-playing) 和 [Stage API](/developer/stage-api)。
 
+## 歌词接口
+
+如果你只想把当前歌词读出去，不需要控制播放，可以在 `设置 > 选项 > 集成设置 > 歌词接口` 里打开一个更轻的接口：
+
+- 固定监听 `http://127.0.0.1:32109/v1/lyric`，无需鉴权，只读
+- 返回当前歌词的精简 JSON，并在 `offset` 字段里带上你设置的歌词时间偏移
+- 当前没有歌词时返回 `null`，这是正常响应
+- 端口被占用时设置页会显示`不可用`
+
+omarchy 4 / quickshell 用户可以直接用现成的顶栏歌词插件 [lia.lines](https://github.com/chthollyphile/lia.lines)，它连接的就是这个接口，在 Folia 没有播放时还能当简易 MPRIS 组件用。
+
+字段说明和调用示例见[歌词接口文档](/developer/lyric-api)。
+
 ## 音频与本地能力
 
 桌面版比 Web 版更适合以下事情：
@@ -194,11 +207,13 @@ windowrule {
 桌面版还包含这些增强能力：
 
 - 最小化到托盘
-- 隐藏任务栏图标
+- 隐藏任务栏图标（遥控窗的任务栏图标可以单独隐藏）
 - 启动后直接进入播放页
-- 应用内检查更新
-- 自动下载更新（支持的平台上）
+- 应用内检查更新，并选择跟随的发布通道
+- 自动下载更新（支持的平台上；macOS 与 Linux 目前仍需手动覆盖）
 - 本地音频缓存目录管理
+- 播放时阻止显示器休眠
+- 语音输入时自动暂停播放（仅 Windows）
 - Discord Rich Presence
 
 这些选项都可以在 [设置说明](/guide/settings) 对应章节里看到更细的解释。

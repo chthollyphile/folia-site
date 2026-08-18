@@ -62,6 +62,7 @@ export default defineConfig({
             { text: "配置说明", link: "/developer/configuration" },
             { text: "项目结构速查", link: "/developer/project-map" },
             { text: "Omni 在线音乐服务层", link: "/developer/omni" },
+            { text: "歌词动画视觉效果器", link: "/developer/visualizer" },
             { text: "已知非 Bug 问题", link: "/developer/known-non-bug-issues" }
           ]
         },
@@ -69,6 +70,7 @@ export default defineConfig({
           text: "接口说明",
           items: [
             { text: "Stage API", link: "/developer/stage-api" },
+            { text: "歌词接口", link: "/developer/lyric-api" },
             { text: "AI 主题接口", link: "/developer/ai-theme-api" }
           ]
         }

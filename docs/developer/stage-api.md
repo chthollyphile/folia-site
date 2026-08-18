@@ -657,7 +657,9 @@ Stage API 自带基础 CORS 头，适合本机工具、嵌入页或浏览器调�
 
 - `songId` 就是后续点播或追加队列时要传的 ID
 - 默认实现会走 Folia 当前可用的在线搜索链路
-- `limit` 服务端会做归一化，不会无限放大
+- `limit` 服务端会归一化到 `1..50`，不传时按 `10` 处理
+- `query` 为空会返回 `400 INVALID_STAGE_PLAYER_SEARCH_QUERY`
+- 默认网易云链路不可用时返回 `503 NETEASE_API_UNAVAILABLE`，上游搜索失败返回 `502 NETEASE_SEARCH_FAILED`
 
 ### `POST /stage/player/play`
 
@@ -689,12 +691,14 @@ Stage API 自带基础 CORS 头，适合本机工具、嵌入页或浏览器调�
 - `changed`
 - `deduplicated`
 - `affectedCount`
+- `diff`
 
 这几个字段很有用：
 
 - `changed`：这次操作有没有真的改到队列
 - `deduplicated`：有没有触发队列去重 / 移位
 - `affectedCount`：实际影响了多少队列项
+- `diff`：可顺序应用到本地队列的紧凑操作；`diff.requiresReload` 为 `true` 时应忽略 `ops` 并重新调用 `GET /stage/player/queue`
 
 > Folia 当前存在严格的队列去重逻辑。
 >
@@ -1151,6 +1155,8 @@ WebSocket 主要发事件增量和队列摘要。如果你需要完整 `items`�
 - `NeteaseLyricAdapter`：网易云歌词结构
 - `QrcLyricAdapter`：QRC 相关输入
 
+与 adapter 平级的还有 `src/utils/lyrics/providers/*`，它们负责从外部歌词源拉取和解密载荷，例如 `kugouLyricProvider.ts`、`qqLyricProvider.ts`、`amllDbProvider.ts` 以及配套的 `krcDecrypt.ts` / `qrcDecrypt.ts`。Stage 输入不会经过这一层，但排查“同一首歌不同来源歌词不一致”时需要知道它的存在。
+
 这也是为什么 Stage 文档里强调“传 parser-compatible 的歌词对象”而不是只说“传一段字符串”。
 
 ### 5. worker 层
@@ -1360,7 +1366,7 @@ WebSocket 主要发事件增量和队列摘要。如果你需要完整 `items`�
 - 协调多歌词源自动匹配最佳结果
 - 结合搜索、打分和候选比较
 
-它解释了“更多歌词源”和“自动使用最佳歌词”背后的实际实现方向。
+它解释了“自动使用最佳歌词”和“歌词匹配优先级”背后的实际实现方向。
 
 ## 项目里一些高价值 utils 工具
 

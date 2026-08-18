@@ -219,7 +219,7 @@
             transform: `translateX(${(1 - getProgress(430, 480)) * 100}px)` 
           }">
             <h2 class="feature-title">多来源整合</h2>
-            <p class="feature-desc">无论是网易云的在线曲库、私人搭建的 Navidrome，还是本地珍藏的高清无损，Folia 皆可将其编排成歌词动画。轻点主菜单Tab，即可在不同来源之间切换，音乐来源可以不同，体验却始终统一、流畅而连贯。</p>
+            <p class="feature-desc">无论是网易云、酷狗、QQ 音乐的在线曲库，私人搭建的 Navidrome，还是本地珍藏的高清无损，Folia 皆可将其编排成歌词动画。轻点主菜单Tab，即可在不同来源之间切换，音乐来源可以不同，体验却始终统一、流畅而连贯。</p>
             <div class="feature-deco" :style="{ transform: `rotate(${scrollY * -0.1}deg)` }">●</div>
           </div>
           <div class="visual-content stacked-cards">
@@ -227,7 +227,7 @@
               opacity: getProgress(420, 470),
               transform: `translateY(${(1 - getProgress(420, 470)) * 100}px) rotate(${getProgress(420, 470) * -5}deg)`
             }">
-              <div class="mockup-placeholder">网易云</div>
+              <div class="mockup-placeholder">在线音源</div>
             </div>
             <div class="glass-card src-card card-2 image-card" :style="{ 
               opacity: getProgress(440, 490),

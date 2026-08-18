@@ -2,14 +2,25 @@
 
 Folia 的核心舞台效果来自歌词动画视觉效果器（Visualizer）。它负责把已经解析好的歌词时间轴、主题和音频能量，转换成播放页里看到的动态背景、逐字高亮、分栏排版、聊天气泡或文章式镜头。
 
-当前主项目里已经接入的模式包括：
+当前主项目里已经接入 11 个模式，均通过 `src/components/visualizer/<mode>/entry.tsx` 注册：
 
-- `classic`：流光
-- `cadenza`：心象
-- `partita`：云阶
-- `fume`：浮名
-- `cappella`：群唱
-- `tilt`：倾诉
+| mode | 中文名 | 英文名 | 主要 renderer |
+| --- | --- | --- | --- |
+| `classic` | 流光 | Luminous | `classic/Visualizer.tsx` |
+| `cadenza` | 心象 | Mindscape | `cadenza/VisualizerCadenza.tsx` |
+| `partita` | 云阶 | Partita | `partita/VisualizerPartita.tsx` |
+| `fume` | 浮名 | Fume | `fume/VisualizerFume.tsx` |
+| `monet` | 莫奈 | Monet | `monet/VisualizerMonet.tsx` |
+| `cappella` | 群唱 | Cappella | `cappella/VisualizerCappella.tsx` |
+| `tilt` | 倾诉 | Tilt | `tilt/VisualizerTilt.tsx` |
+| `claddagh` | 回环 | Claddagh | `claddagh/VisualizerCladdagh.tsx` |
+| `diorama` | 镜台 | Diorama | `diorama/VisualizerDiorama.tsx` |
+| `pendolo` | 时计 | Pendolo | `pendolo/VisualizerPendolo.tsx` |
+| `sonnet` | 商籁 | Sonnet | `sonnet/VisualizerSonnet.tsx` |
+
+`registry.tsx` 的默认模式是 `classic`。模式枚举与共享 tuning map 见 `src/types.ts`、`definition.ts` 和 `tuningRegistry.ts`。
+
+各模式的渲染技术并不统一：多数模式基于 DOM + Framer Motion，`diorama` 走 React Three Fiber，`sonnet` 走 Pixi runtime，`pendolo` 有独立的时钟机械 canvas，`cadenza` 与 `fume` 依赖 `@chenglou/pretext` 做文字测量与布局。
 
 对开发者来说，Visualizer 这一层的重点不是“怎么解析歌词”，而是“拿到统一歌词对象后，如何稳定地做排版、预热和过场动画”。
 
@@ -300,7 +311,10 @@ AI 主题可以通过 `theme.wordColors` 为关键词或短语提供颜色。Vis
 - `runtime.ts`：提供当前句、最近完成句、下一句、预热窗口这些共享运行时工具
 - `VisualizerShell.tsx`：负责外层容器、背景层、返回按钮、字体注入
 - `VisualizerSubtitleOverlay.tsx`：负责底部翻译和下一句提示
-- `classic` / `cadenza` / `partita` / `fume` / `cappella` / `tilt`：各自的主渲染器
+- `VisualizerHarmonyOverlay.tsx`：负责副歌 / 音频响应的和声叠加层
+- `tuningRegistry.ts`：汇总各模式 tuning 默认值，由 `VisualizerRenderer` 的 `applyVisualizerTuning` 统一注入
+- `backgrounds/registry.tsx`：背景层注册表，与模式注册表相互独立
+- `<mode>/`：各自的主渲染器与 `tuning.ts`
 
 这套结构的重点是“共享外壳和运行时，不强行统一渲染算法”。不同模式仍然可以：
 
@@ -363,6 +377,57 @@ AI 主题可以通过 `theme.wordColors` 为关键词或短语提供颜色。Vis
 ::: warning 不推荐的接入方式
 不要为了加一个新模式，直接去 `VisualizerRenderer.tsx` 里手写一串 `if / switch` 分支。当前架构已经把模式发现收敛到 `entry.tsx + registry.tsx` 这条链路里了。
 :::
+
+## 背景层是独立的注册表
+
+背景不属于任何单个模式。背景 entry 位于 `src/components/visualizer/backgrounds/<name>/entry.tsx`，由 `backgrounds/registry.tsx` 用同样的 glob 方式发现，实际渲染在 `backgrounds/VisualizerBackgroundRenderer.tsx`，共享 props 与默认值在 `backgrounds/definition.ts`。
+
+当前背景 entry：
+
+| 背景 | 实现 |
+| --- | --- |
+| `common` | `FluidBackground.tsx`、`GeometricBackground.tsx`，带 `CommonBackgroundSettingsCard.tsx` |
+| `latent` | `LatentBackground.tsx` 与设置卡 |
+| `monet` | `MonetBackgroundLayer.tsx` 与设置卡 |
+| `nomand` | `NomandBackgroundLayer.tsx` 与设置卡 |
+| `sora` | `SoraBackground.tsx` |
+| `url` | `UrlBackgroundLayer.tsx` 与设置卡 |
+
+新增背景时走背景注册表，不要在单个 visualizer 内联一套背景实现。
+
+## 共享运行时工具
+
+`runtime.ts` 统一了“当前行、上一句、下一句、预热窗口”的计算，新模式不要再自己扫描 `lines`：
+
+- `useVisualizerRuntime`
+- `getRecentCompletedLine`
+- `getUpcomingLine` / `getUpcomingLines`
+- `shouldPreheatLine`
+- `prepareActiveAndUpcoming`
+
+字体与颜色同样有共享入口：`src/utils/fontStacks.ts` 保证 DOM、Canvas、pretext 和光栅化路径使用同一套字重 / 字体栈，`colorMix.ts` 负责主题色 alpha 与混合。字体测量和最终渲染必须使用同一个 `resolveThemeFontWeight` 结果，否则布局会与实际绘制错位。
+
+## 不要只在播放页验证
+
+统一 renderer 目前被多个宿主复用，它们会传入不同的 `staticMode`、背景、面板和字幕 props：
+
+- `src/App.tsx`
+- `src/components/modal/ThemePark.tsx`
+- `src/components/visualizer/VisPlayground.tsx`
+- `src/components/obs/ObsBrowserSourceApp.tsx`
+- `src/components/obs/ObsWebSourceApp.tsx`
+
+改动共享层时，至少要在播放页与 `VisPlayground` 两处验证；涉及背景、字幕或透明度时还要看 OBS 源。
+
+## 运行时约束
+
+这些是主仓库 `frontend-runtime-guardrails` skill 的硬性要求，PR 会按它审查：
+
+- 连续播放时间优先使用 MotionValue、ref、CSS / Motion、canvas 或 Pixi draw loop，不要每帧写 React state / store。
+- React state 只保存当前行、播放状态、可见段落等离散变化；高频 `requestAnimationFrame`、`useMotionValueEvent`、`ResizeObserver` 必须有相等保护和 cleanup。
+- 布局 cache key 要包含歌词内容、主题、最终字重、窗口尺寸和 mode tuning。
+- Pixi runtime、Three 场景、纹理和 RAF 必须在卸载时销毁。
+- 单个模式文件继续明显膨胀时，把 layout、canvas / Pixi、tuning 和纯计算拆到同目录文件。
 
 ## Visualizer 贡献规则
 

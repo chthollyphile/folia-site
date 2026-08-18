@@ -352,7 +352,12 @@ VITE_NETEASE_API_BASE=你的网易云API地址
 | --- | --- | --- |
 | `VITE_NETEASE_API_BASE` | 网易云 API 地址 | 是 |
 | `VITE_KUGOU_API_BASE` | KuGouMusicApi 地址；不使用酷狗时可留空 | 否 |
+| `VITE_QQ_API_BASE` | QQ 音乐 API 地址；不使用 QQ 音乐时可留空 | 否 |
 | `VITE_AI_PROVIDER` | AI 提供商，`google` 或 `openai` | 是 |
+
+::: warning QQ 音乐不能部署在 Vercel 上
+QQ 音乐 API 需要常驻 Node 进程（扫码依赖 MQTT over WebSocket 长连线），不能跑在 Vercel Serverless 或 Cloudflare Workers 上。要在 Web 版用 QQ 音乐，得另外找一台能跑常驻服务的机器或 Docker 环境，再把地址填进 `VITE_QQ_API_BASE`。留空时 QQ 入口可见但不可用。
+:::
 
 #### 只有使用 Gemini 时才需要
 
@@ -365,8 +370,9 @@ VITE_NETEASE_API_BASE=你的网易云API地址
 | 变量名 | 作用 |
 | --- | --- |
 | `OPENAI_API_KEY` | 接口 Key |
-| `OPENAI_API_URL` | 接口地址 |
+| `OPENAI_API_URL` | 接口地址，可填 base URL 或完整 `chat/completions` 地址 |
 | `OPENAI_API_MODEL` | 模型名 |
+| `OPENAI_API_TEMPERATURE` | 可选，范围 `0`–`2`，留空按 `0.7` 处理 |
 
 ### 第 5 步：照着示例填写
 

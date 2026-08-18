@@ -1,6 +1,6 @@
 # Docker 全栈部署
 
-本指南使用 Docker Compose 一次部署完整的 Folia Web 服务：Web 网关、Folia Web API、网易云与酷狗音乐接口，以及独立的同步服务。
+本指南使用 Docker Compose 一次部署完整的 Folia Web 服务：Web 网关、Folia Web API、网易云 / 酷狗 / QQ 音乐接口，以及独立的同步服务。
 
 适合 NAS、VPS、软路由或已有 Docker 环境的自托管用户。部署完成后，只有 Web 网关和同步服务会开放宿主机端口；其余服务仅在 Docker 网络中互通。
 
@@ -63,14 +63,16 @@ docker compose ps
 - Folia Web：`http://服务器 IP:18080`
 - 同步服务健康检查：`http://服务器 IP:13000/health`
 
-网易云、酷狗与 Folia Web API 不会暴露宿主机端口，不能绕过 Web 网关直接访问。同步服务也与 Web 内部服务隔离。
+网易云、酷狗、QQ 音乐与 Folia Web API 不会暴露宿主机端口，不能绕过 Web 网关直接访问。同步服务也与 Web 内部服务隔离。
+
+QQ 音乐容器会把扫码登录的装置状态持久化到一个独立的 `qq-api-state` 卷，因此重启容器不需要重新绑定装置。
 
 ## 环境变量说明
 
 | 变量 | 默认值 | 用途 |
 | --- | --- | --- |
 | `FOLIA_IMAGE_NAMESPACE` | 模板为 `papersman` | Docker Hub 镜像命名空间，必填 |
-| `FOLIA_STACK_VERSION` | `latest` | 四个 Web 堆栈镜像共用的版本 |
+| `FOLIA_STACK_VERSION` | `latest` | Web 堆栈镜像（网关、Web API、网易云、酷狗、QQ）共用的版本 |
 | `FOLIA_SYNC_VERSION` | `latest` | Sync Server 的独立版本 |
 | `FOLIA_HTTP_BIND` / `FOLIA_HTTP_PORT` | `0.0.0.0` / `18080` | Web 网关监听地址与端口 |
 | `FOLIA_AI_PROVIDER` | `google` | AI 提供商：`google`、`gemini` 或 `openai` |
@@ -80,6 +82,7 @@ docker compose ps
 | `OPENAI_API_MODEL` | `gpt-4o` | 使用的模型名称 |
 | `OPENAI_API_TEMPERATURE` | `0.7` | AI 主题生成温度 |
 | `FOLIA_FORWARD_CLIENT_IP` | `false` | 是否向音乐平台转发浏览器 IP |
+| `ENABLE_GENERAL_UNBLOCK` | `false` | 是否启用网易云接口的通用解锁能力 |
 | `FOLIA_SYNC_BIND` / `FOLIA_SYNC_PORT` | `0.0.0.0` / `13000` | 同步服务监听地址与端口 |
 | `FOLIA_SYNC_DATA_DIR` | `./data/sync` | Sync Server SQLite 数据持久化目录 |
 | `SYNC_TOKEN` | 无 | 同步客户端 Bearer Token，至少八位，必填 |
