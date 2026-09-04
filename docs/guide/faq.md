@@ -24,7 +24,7 @@
 
 ## 很多操作都太繁琐了怎么办
 
-任何时候你觉得某个操作很繁琐，都可以在播放页面按下 `S` 键打开指令窗口：
+任何时候你觉得某个操作很繁琐，都可以按 `Ctrl/Cmd + K` 打开全局命令面板。焦点不在输入框时也可按 `S`；海报墙默认会优先把单字符用于筛选，详见[命令面板用户指南](/guide/command-palette)：
 
 ![alt text](../public/screenshots/guide/faq/image-9.png)
 
@@ -38,7 +38,7 @@
 
 ![alt text](../public/screenshots/guide/faq/image-8.png)
 
-此外，按下 `S` 键 打开指令窗口后，输入 `队列` 或者 `queue`，可以迅速的查看当前播放队列，并且可以进行搜索：
+此外，按 `Ctrl/Cmd + P` 可以直接打开队列，也可以在命令面板输入`队列`或`queue`，快速查看、搜索和批量整理当前播放队列：
 
 ![alt text](../public/screenshots/guide/faq/image-10.png)
 

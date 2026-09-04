@@ -33,6 +33,7 @@ export default defineConfig({
             { text: "Docker 全栈部署", link: "/guide/deploy-docker" },
             { text: "部署同步服务", link: "/guide/deploy-sync" },
             { text: "桌面版功能", link: "/guide/desktop" },
+            { text: "命令面板", link: "/guide/command-palette" },
             { text: "设置说明", link: "/guide/settings" },
             { text: "功能地图与 GUI 位置", link: "/guide/feature-map" },
             { text: "LLM 直达导航", link: "/guide/llm-routing" }

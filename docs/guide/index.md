@@ -25,7 +25,8 @@ Folia 是一款以歌词为中心的播放器。它把在线音乐、本地音�
 | 在线播放 | 在网易云、酷狗、QQ 音乐之间切换音源，搜索并直接播放、查看歌词和封面。 |
 | 本地音乐库 | 导入文件夹，自动读取音频标签、封面、内嵌歌词和同目录歌词文件。 |
 | Navidrome 接入 | 连接私有音乐库，浏览专辑、歌手、播放列表和随机歌曲。 |
-| 多种歌词视觉模式 | 内置 `流光`、`心象`、`云阶`、`浮名`、`莫奈`、`群唱`、`倾诉`、`回环`、`镜台`、`时计`、`商籁` 共 11 种模式。 |
+| 多种歌词视觉模式 | 内置 `静止`、`流光`、`心象`、`云阶`、`浮名`、`莫奈`、`群唱`、`倾诉`、`回环`、`镜台`、`时计`、`商籁`、`凝彩` 等模式。 |
+| 全局命令面板 | 在任意界面用 `Ctrl/Cmd + K` 搜索并执行命令，也支持队列批量操作、执行模式和自定义快捷键。 |
 | AI 主题 | 根据歌词或纯音乐标题生成明暗双主题配色。 |
 | 舞台模式 | 接收外部歌词或媒体输入，驱动 Folia 的沉浸式播放页。 |
 | 桌面增强 | 提供独立遥控窗、视频录制、系统更新和平台级窗口控制。 |
@@ -39,11 +40,12 @@ Folia 是一款以歌词为中心的播放器。它把在线音乐、本地音�
 1. [快速开始](/guide/quick-start)
 2. [播放、歌词与视觉模式](/guide/playback-and-lyrics)
 3. [设置说明](/guide/settings)
-4. [功能地图与 GUI 位置](/guide/feature-map)
-5. [本地音乐](/guide/local-music)
-6. [Navidrome](/guide/navidrome)
-7. [Docker 全栈部署](/guide/deploy-docker)
-8. [部署同步服务](/guide/deploy-sync)
-9. [Stage 与 Now Playing](/guide/stage-and-now-playing)
+4. [命令面板](/guide/command-palette)
+5. [功能地图与 GUI 位置](/guide/feature-map)
+6. [本地音乐](/guide/local-music)
+7. [Navidrome](/guide/navidrome)
+8. [Docker 全栈部署](/guide/deploy-docker)
+9. [部署同步服务](/guide/deploy-sync)
+10. [Stage 与 Now Playing](/guide/stage-and-now-playing)
 
 如果你准备自己部署或二次接入，请继续看 [开发者文档](/developer/)。
