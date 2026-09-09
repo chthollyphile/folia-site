@@ -60,7 +60,7 @@ ws://localhost:9863/api/ws/lyric
 
 ## Nexus PlayerCap 模式
 
-除了 Now Playing，Folia 还可以接入 Nexus PlayerCap 作为外部歌词来源。在集成设置里填写 PlayerCap 地址即可，留空时默认使用本机 `localhost:8765`，失焦后自动保存并重连。
+除了 Now Playing，Folia 还可以接入 Nexus PlayerCap 作为外部歌词来源。在`连接与集成`设置里填写 PlayerCap 地址即可，留空时默认使用本机 `localhost:8765`，失焦后自动保存并重连。
 
 这个模式额外提供几个选项：
 
@@ -89,12 +89,12 @@ ws://localhost:9863/api/ws/lyric
 GET http://127.0.0.1:32109/v1/lyric
 ```
 
-它固定端口、无需鉴权、只监听回环地址，返回当前歌词的精简 JSON。开关在 `设置 > 选项 > 集成设置 > 歌词接口`，字段说明见[歌词接口](/developer/lyric-api)。
+它固定端口、无需鉴权、只监听回环地址，返回当前歌词的精简 JSON。开关在 `设置 > 选项 > 连接与集成 > 歌词接口`，字段说明见[歌词接口](/developer/lyric-api)。
 
 ## 如何启用
 
 1. 使用桌面版启动 Folia。
-2. 打开设置中的“集成设置”。
+2. 打开设置中的“连接与集成”。
 3. 开启 `Stage Mode`。
 4. 选择来源：
    - `Stage API`

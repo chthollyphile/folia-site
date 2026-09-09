@@ -13,7 +13,12 @@
 - 完整设置说明看 [设置说明](/guide/settings)
 - 播放页与歌词逻辑看 [播放、歌词与视觉模式](/guide/playback-and-lyrics)
 - 本地导入细节看 [本地音乐](/guide/local-music)
-- Navidrome 细节看 [Navidrome](/guide/navidrome)
+- 队列拼贴视图看 [Lattice（队列拼贴）](/guide/lattice)
+- 命令面板与快捷键看 [命令面板](/guide/command-palette)
+- 切歌过渡看 [Folia 智能过渡](/guide/automix)
+- 模组看 [模组系统（实验性）](/guide/mods)
+- 自建服务器接入看 [Navidrome / OpenSubsonic](/guide/navidrome)
+- “这个功能是哪一版加的”看 [更新记录](/guide/changelog)
 - Stage 与外部接入看 [Stage 与 Now Playing](/guide/stage-and-now-playing)
 - 桌面版专属能力看 [桌面版功能](/guide/desktop)
 
@@ -42,7 +47,13 @@
 | 扫码登录、搜索、切标签、本地导入、连接 Navidrome | 本页 | [功能地图与 GUI 位置](/guide/feature-map) | 要 |
 | 播放页、歌词、视觉模式 | [播放、歌词与视觉模式](/guide/playback-and-lyrics) | 本页 | 用户问按钮位置时要 |
 | 本地音乐、歌词匹配、重扫、删除文件夹 | [本地音乐](/guide/local-music) | 本页 | 要 |
-| Navidrome 配置与使用 | [Navidrome](/guide/navidrome) | 本页 | 要 |
+| Navidrome / Subsonic / OpenSubsonic 配置与使用 | [Navidrome / OpenSubsonic](/guide/navidrome) | 本页 | 要 |
+| 命令面板、执行模式、快捷键、队列批量操作 | [命令面板](/guide/command-palette) | [设置说明](/guide/settings) | 用户问入口时要 |
+| 队列拼贴 / Lattice / 海报墙 / 歌曲墙 | [Lattice（队列拼贴）](/guide/lattice) | [命令面板](/guide/command-palette) | 要 |
+| 切歌过渡、Automix、混音、分析模型 | [Folia 智能过渡](/guide/automix) | [设置说明](/guide/settings) | 不需要 |
+| 模组、mod、zip 安装、透明视频导出 | [模组系统（实验性）](/guide/mods) | [桌面版功能](/guide/desktop) | 不需要 |
+| 壁纸模式、崩溃日志、更新通道 | [桌面版功能](/guide/desktop) | [设置说明](/guide/settings) | 要 |
+| 某个功能是哪个版本加的 | [更新记录](/guide/changelog) | — | 不需要 |
 | Stage、Now Playing、OBS 接入 | [Stage 与 Now Playing](/guide/stage-and-now-playing) | [桌面版功能](/guide/desktop) | 要 |
 | 桌面遥控窗、录制、透明背景、点击穿透 | [桌面版功能](/guide/desktop) | [功能地图与 GUI 位置](/guide/feature-map) | 基本都要 |
 | 设置项含义 | [设置说明](/guide/settings) | 本页 | 用户问入口时要 |
@@ -96,6 +107,56 @@
 
 注意: MacOS 上，切换上一曲/下一曲使用<kbd>Cmd</kbd>键而不是 <kbd>Ctrl</kbd>
 
+底部控制条默认不常驻上一首 / 下一首按钮。想要按钮的话有两种办法：
+
+- `设置 > 选项 > 界面设置 > 底部界面 > 进度条按钮槽位`，把其中一个槽位设成`上一首`或`下一首`。
+- `设置 > 选项 > 实验室 > 始终显示切歌按钮`，让进度条标题两侧的箭头常驻。
+
+## 如何打开命令面板
+
+适用问题：
+
+- “命令面板怎么打开”
+- “S 键为什么没反应”
+- “怎么用键盘做操作”
+
+直接回答要点：
+
+1. 任意界面按 <kbd>Ctrl</kbd> + <kbd>K</kbd>（macOS 是 <kbd>Cmd</kbd> + <kbd>K</kbd>）。这是最稳妥的入口，任何界面都有效。
+2. 焦点不在输入框、且当前不是首页网格时，也可以直接按 <kbd>S</kbd>。
+3. 按 <kbd>:</kbd> 进入执行模式，再按一个字母立刻执行命令（例如 `n` 下一首、`v` 音量、`q` 队列）。
+4. <kbd>Ctrl/Cmd</kbd> + <kbd>P</kbd> 直接进队列界面，<kbd>Ctrl/Cmd</kbd> + <kbd>F</kbd> 筛选当前视图。
+
+补充说明：
+
+- 首页网格会把单字符输入当成筛选内容，所以 <kbd>S</kbd> 在那里默认不开面板。要改：`设置 > 选项 > 交互控制 > 海报墙上用 S 键打开命令窗口`。
+- 命令面板支持中文、英文、拼音和拼音首字母检索。
+- 完整说明见 [命令面板](/guide/command-palette)。
+
+## 如何打开 Lattice（队列拼贴）
+
+适用问题：
+
+- “队列拼贴在哪”
+- “怎么看整条播放队列”
+- “Lattice 怎么打开”
+- “海报墙视图怎么进”
+
+直接回答要点：
+
+1. 任意界面按 <kbd>Ctrl</kbd> + <kbd>B</kbd>（macOS 是 <kbd>Cmd</kbd> + <kbd>B</kbd>），再按一次退出。
+2. 或者打开命令面板搜索 `Lattice` / `队列拼贴`，执行 `Lattice 打开`。
+3. 进去以后：拖动平移，方向键移动选中，<kbd>Enter</kbd> 展开选中的海报、再按一次播放，<kbd>Esc</kbd> 逐层退出。
+4. 右下角齿轮按钮是 Lattice 工具面板：聚焦当前歌曲、切歌自动聚焦、打开队列命令、开灯 / 关灯、操作提示。
+
+补充说明：
+
+- 私人 FM 播放时 Lattice 不可用。
+- Lattice 里没有侧边面板，所有操作走命令面板；<kbd>S</kbd> 和 <kbd>:</kbd> 在那里可以直接用。
+- 外观开关在 `设置 > 选项 > 视觉设置 > 队列拼贴设置`。
+- 想让点击播放后直接进 Lattice：`设置 > 选项 > 界面设置 > 播放后进入的视图`。
+- 完整说明见 [Lattice（队列拼贴）](/guide/lattice)。
+
 
 ## 如何切主页页签和搜索内容
 
@@ -116,7 +177,7 @@
 补充说明：
 
 - 用户说“搜不到歌单”时，要先确认他当前是不是停在错误页签里。
-- 用户说“没有 Navidrome 页签”时，要先确认是否在 `设置 > 选项 > 集成设置` 里启用了 Navidrome。
+- 用户说“没有 Navidrome 页签”时，要先确认是否在 `设置 > 选项 > 连接与集成` 里启用了 Navidrome。
 
 ## 如何进入播放页和右侧面板
 
@@ -287,8 +348,8 @@
 直接回答要点：
 
 1. 打开 `主页左上角齿轮` 进入设置。
-2. 进入 `设置 > 选项 > 集成设置`。
-3. 找到 Navidrome 区域。
+2. 进入 `设置 > 选项 > 连接与集成`（命令面板搜索 `Navidrome 服务器` 可直达）。
+3. 找到 `Navidrome 设置` 区域。
 4. 依次填写：
    - `Server URL`
    - `Username`
@@ -299,8 +360,9 @@
 
 补充说明：
 
-- 配置成功后，设置页里还能看到服务器信息、用户名、扩展数量、音乐目录数量等状态信息。
+- 配置成功后，设置页里还能看到服务器信息、用户名、`OpenSubsonic` 是否可用、扩展数量、音乐目录数量等状态信息。
 - 如果用户已经配过一套连接参数，还可以在这里清空配置后重填。
+- **Folia 用的是标准 Subsonic / OpenSubsonic API（声明版本 1.16.1，客户端标识 `Folia`），不只支持 Navidrome。** 其他实现了 Subsonic API 的服务端也可以尝试连接，能用到哪些功能取决于服务端实现了什么。
 
 ## 如何启用 Stage / Now Playing
 
@@ -312,7 +374,7 @@
 
 直接回答要点：
 
-1. 打开 `设置 > 选项 > 集成设置`。
+1. 打开 `设置 > 选项 > 连接与集成`。
 2. 找到 Stage 相关区域。
 3. 在桌面版里，可以启用桌面 Stage 模式，并选择数据来源：
    - `Stage API`
@@ -334,7 +396,7 @@
 
 直接回答要点：
 
-1. 打开 `设置 > 选项 > 集成设置`。
+1. 打开 `设置 > 选项 > 连接与集成`。
 2. 找到 `OBS Browser Source` 区域。
 3. 开启功能后，界面会显示可复制的 URL。
 4. 也可以查看当前客户端连接数量。
@@ -464,7 +526,7 @@
 
 位置：
 
-- `设置 > 选项 > 集成设置 > 歌词接口`
+- `设置 > 选项 > 连接与集成 > 歌词接口`
 - 也可以从命令面板切换
 
 要点：
@@ -585,7 +647,12 @@
 | `播放页` `右侧面板` `封面` `队列` `账号` | [功能地图与 GUI 位置](/guide/feature-map) 的播放页部分 |
 | `本地导入` `重扫` `删除文件夹` `ReplayGain` | [本地音乐](/guide/local-music) |
 | `歌词来源` `逐字歌词` `时间轴偏移` `底部字幕` | [播放、歌词与视觉模式](/guide/playback-and-lyrics) 和本页设置补完 |
-| `Navidrome` `Server URL` `Username` `Password` | [Navidrome](/guide/navidrome) |
+| `Navidrome` `Subsonic` `OpenSubsonic` `Server URL` `Username` `Password` | [Navidrome / OpenSubsonic](/guide/navidrome) |
+| `命令面板` `Ctrl+K` `执行模式` `快捷命令` `自定义快捷键` | [命令面板](/guide/command-palette) |
+| `Lattice` `队列拼贴` `歌曲墙` `海报墙视图` `Ctrl+B` | [Lattice（队列拼贴）](/guide/lattice) |
+| `Automix` `智能过渡` `混音` `分析模型` `表现模式` | [Folia 智能过渡](/guide/automix) |
+| `模组` `mod` `zip 安装` `透明视频导出` | [模组系统（实验性）](/guide/mods) |
+| `壁纸模式` `听歌打卡` `自动扫描` `转码` | [设置说明](/guide/settings) 和 [桌面版功能](/guide/desktop) |
 | `OBS` `Browser Source` `token` `复制地址` | [桌面版功能](/guide/desktop) 和 [Stage 与 Now Playing](/guide/stage-and-now-playing) |
 | `遥控窗` `录制` `点击穿透` `透明背景` | [桌面版功能](/guide/desktop) |
 | `实验室` `隐藏 UI` `毛玻璃` | [设置说明](/guide/settings) 和本页设置补完 |

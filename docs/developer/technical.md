@@ -229,10 +229,15 @@ vercel dev
 | `npm run preview` | 预览构建结果 |
 | `npm run typecheck` | 全项目类型检查 |
 | `npm run test` | 运行 Vitest 单元测试 |
-| `npm run test:ui` | 运行 Playwright UI 测试 |
+| `npm run test:ui` | 运行 Playwright UI 截图测试 |
+| `npm run test:component` | 只跑组件级 Playwright 测试 |
+| `npm run test:render` | 跑 dev probe 渲染测试 |
+| `npm run codemap` / `codemap:check` | 生成 / 校验 `docs/CODEMAP.md` |
 | `npm run dev:electron` | 启动 Electron 开发模式 |
 | `npm run dev:electron:dist` | 构建后以桌面模式运行 |
 | `npm run build:electron` | 打包桌面端应用 |
+| `npm run build:ffmpeg` | 拉取桌面端转码回退用的 FFmpeg |
+| `npm run models:fetch` | 拉取 Automix 分析模型 |
 | `npm run stage:client` | 打开本地 Stage API 联调台 |
 
 ## 代码速查地图
@@ -241,8 +246,13 @@ vercel dev
 | --- | --- |
 | App 顶层装配、overlay、dialog、播放器面板参数组装 | `src/components/app/*` |
 | 设置中心 UI | `src/components/modal/settings/*` |
-| 设置持久化、visualizer tuning、偏好 store | `src/stores/useSettingsUiStore.ts` |
-| 命令面板命令 | `src/components/command-palette/commandRegistry.ts` |
+| 设置弹窗导航与小节锚点 | `src/stores/useSettingsModalStore.ts`、`src/components/modal/settings/navigation/settingsNavModel.ts`、`settingsAnchorModel.ts` |
+| visualizer tuning 与偏好 store | `src/stores/useVisualizerSettingsStore.ts`、`visualizerSettingsPersistence.ts`，其余偏好按领域拆在 `src/stores/*` |
+| 命令面板命令 | `src/components/command-palette/commandRegistry.ts`、`commands/*` |
+| Lattice 队列拼贴 | `src/components/app/lattice/*` |
+| Folia 智能过渡 | `src/services/automix/*` |
+| 模组系统 | `src/mods/*`、`electron/modSystem/*` |
+| 音频转码回退与壁纸模式 | `electron/transcode/*`、`electron/windowsWallpaperController.cjs`、`electron/macWallpaperController.cjs` |
 | visualizer 共享契约和注册 | `src/components/visualizer/definition.ts`、`src/components/visualizer/registry.tsx` |
 | visualizer 预览和设置面板 | `src/components/visualizer/VisPlayground.tsx`、`src/components/visualizer/VisPlaygroundSettingsPanel.tsx` |
 | visualizer 模式实现 | `src/components/visualizer/<mode>/*` |
@@ -251,7 +261,7 @@ vercel dev
 | 本地音乐、Navidrome、网易云服务 | `src/services/*` |
 | 共享类型和默认 tuning | `src/types.ts` |
 
-更细的入口地图见[项目结构速查](/developer/project-map)。
+结构性问题优先读主仓库自动生成的 `docs/CODEMAP.md`（`npm run codemap` 生成，CI 会比对，不要手改）；更细的入口地图见[项目结构速查](/developer/project-map)。
 
 新增设置时遵守主仓库 skill：视觉相关设置需要进入外观页的配置导入导出；功能性设置和可执行动作需要注册到 command palette。
 

@@ -36,6 +36,7 @@ export default defineConfig({
             { text: "命令面板", link: "/guide/command-palette" },
             { text: "设置说明", link: "/guide/settings" },
             { text: "功能地图与 GUI 位置", link: "/guide/feature-map" },
+            { text: "更新记录", link: "/guide/changelog" },
             { text: "LLM 直达导航", link: "/guide/llm-routing" }
           ]
         },
@@ -43,11 +44,14 @@ export default defineConfig({
           text: "功能说明",
           items: [
             { text: "播放、歌词与视觉模式", link: "/guide/playback-and-lyrics" },
+            { text: "Lattice（队列拼贴）", link: "/guide/lattice" },
             { text: "歌词动画参数说明", link: "/guide/lyrics-animation-tuning" },
+            { text: "Folia 智能过渡", link: "/guide/automix" },
             { text: "本地音乐", link: "/guide/local-music" },
-            { text: "Navidrome", link: "/guide/navidrome" },
+            { text: "Navidrome / OpenSubsonic", link: "/guide/navidrome" },
             { text: "Stage 与 Now Playing", link: "/guide/stage-and-now-playing" },
             { text: "AI 主题", link: "/guide/ai-theme" },
+            { text: "模组系统（实验性）", link: "/guide/mods" },
             { text: "常见问题", link: "/guide/faq" },
             { text: "macOS App 已损坏", link: "/guide/macos-app-damaged" }
           ]

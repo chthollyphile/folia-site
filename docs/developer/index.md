@@ -28,7 +28,13 @@ Folia 主要由这些部分构成：
 | `sync-server/` | 官方同步服务端（Cloudflare D1 / Docker / Node 三种部署） |
 | `deploy/docker/` | Docker Compose 全栈部署（前端 + 各音源 API + 同步服务） |
 | `skills/` | 主仓库内的开发规则集，约束模块划分、复用和设置接入方式 |
+| `dev/` | 开发期工具：代码地图生成器（`dev/mcp/ts-code-map/`）、UI probe、拼音索引插件等 |
+| `mods/` | 实验性模组系统加载模组的目录 |
+| `models/` | Automix 分析模型（按需下载，不进安装包） |
+| `ffmpeg-audio/` | 桌面端音频转码回退用的 FFmpeg 相关资源 |
 | `stage-client.html` | Stage API 联调台入口 |
+
+主仓库还有一份自动生成的代码地图 `docs/CODEMAP.md`（由 `npm run codemap` 生成，CI 会重新生成并比对）。它给出区域分布、枢纽模块、`import.meta.glob` 动态注册点的完整展开和分层边界违规——**找不到代码在哪里时先读它**，不要手改它。
 
 ## 技术栈
 
@@ -53,10 +59,16 @@ Folia 主要由这些部分构成：
 | `npm run preview` | 预览构建结果 |
 | `npm run typecheck` | 全项目类型检查 |
 | `npm run test` | 运行 Vitest 单元测试 |
-| `npm run test:ui` | 运行 Playwright UI 测试 |
+| `npm run test:ui` | 运行 Playwright UI 截图测试 |
+| `npm run test:component` | 只跑组件级 Playwright 测试 |
+| `npm run test:render` | 跑 dev probe 渲染测试 |
+| `npm run codemap` | 重新生成 `docs/CODEMAP.md` |
+| `npm run codemap:check` | 检查代码地图是否与当前结构一致 |
 | `npm run dev:electron` | 启动 Electron 开发模式 |
 | `npm run dev:electron:dist` | 构建前端后以桌面模式运行 |
 | `npm run build:electron` | 打包桌面版 |
+| `npm run build:ffmpeg` | 拉取桌面端转码用的 FFmpeg |
+| `npm run models:fetch` | 拉取 Automix 分析模型 |
 | `npm run stage:client` | 打开 Stage API 联调台 |
 
 ## 推荐阅读顺序

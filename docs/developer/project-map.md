@@ -7,6 +7,8 @@
 ## 总体分层
 
 - `src/`：前端界面、播放逻辑、歌词解析、视觉模式、设置中心
+- `src/mods/`：实验性模组系统的前端侧
+- `skills/` 与 `docs/CODEMAP.md`：主仓库的 AI 协作规则与自动生成的代码地图；`docs/CODEMAP.md` 由 `npm run codemap` 生成，CI 会重新生成并比对，**不要手改**
 - `api-ts/` → `api/`：Vercel 服务端函数源码与编译产物；`worker/` 是同一批接口的 Cloudflare 版本
 - `shared/`：Web、Worker 与 Electron 共用的主题清洗等公共代码
 - `electron/`：桌面端主进程、Stage API、歌词接口、本地系统集成
@@ -63,8 +65,14 @@ App.tsx
 | app-level 导航 | `src/components/app/navigation/*` |
 | 展示派生（样式、主题、debug 快照） | `src/components/app/presentation/*` |
 | 设置中心 UI | `src/components/modal/SettingsModal.tsx`、`src/components/modal/settings/*` |
-| 设置持久化与偏好状态 | `src/stores/useSettingsUiStore.ts` |
-| 命令面板 | `src/components/command-palette/commandRegistry.ts` |
+| 设置弹窗导航与打开状态 | `src/stores/useSettingsModalStore.ts`、`src/components/modal/settings/navigation/*` |
+| 命令面板 | `src/components/command-palette/commandRegistry.ts`、`commands/*`、`surfaces/*`、`syntax/*`、`search/*` |
+| Lattice 队列拼贴 | `src/components/app/lattice/*`（`Lattice.tsx` 是入口，`PosterWall.tsx` 负责墙，`layout.ts` / `blockReflows.ts` 负责排布，`lyrics/*` 是卡片上的轻量歌词） |
+| 播放后进入哪个视图 | `src/stores/usePlaybackEntryViewStore.ts`、`src/components/modal/playback-entry-view/*` |
+| Folia 智能过渡 | `src/services/automix/*`、`src/stores/useAutomixSettingsStore.ts`、`src/components/modal/settings/TransitionSettingsSection.tsx`、`AutomixModelsSection.tsx` |
+| 模组系统 | `src/mods/*`（前端）、`electron/modSystem/*`（加载器与安装校验） |
+| 音频转码回退 | `electron/transcode/*`、`ffmpeg-audio/` |
+| 壁纸模式 | `electron/windowsWallpaperController.cjs`、`macWallpaperController.cjs`、`wallpaperWatchdog.cjs` |
 | visualizer 共享契约和注册 | `src/components/visualizer/definition.ts`、`registry.tsx`、`tuningRegistry.ts` |
 | visualizer 预览与调参 | `src/components/visualizer/VisPlayground.tsx`、`VisPlaygroundSettingsPanel.tsx` |
 | 各个歌词动画模式 | `src/components/visualizer/<mode>/*` |
@@ -82,14 +90,18 @@ App.tsx
 - 外部 surface：`useStagePlaybackController`、`useNowPlayingSource`、`usePlayerCapSource`、`useObsBrowserSourcePublisher`、`useLyricApiPublisher`
 - 恢复、主题与窗口：`useSessionRestoreController`、`useThemeController`、`useAppPreferences`，以及各 Electron bridge hook
 - 导航 / 搜索 / 集合：`useAppNavigation.ts`、`useSearchNavigationStore.ts`、`useCollectionNavigationStore.ts`
-- 设置 / 账户 / quick editor：`useSettingsUiStore.ts`、`useOnlineProviderAccountStore.ts`、`useThemeQuickEditorStore.ts`
+- 设置 / 账户 / quick editor：`useSettingsModalStore.ts`、`useOnlineProviderAccountStore.ts`、`useThemeQuickEditorStore.ts`
+- 界面与外观偏好：`useAppChromeStore.ts`、`useGridViewSettingsStore.ts`、`useHomeLayoutSettingsStore.ts`、`useLatticeSettingsStore.ts`、`useLatticeControlsStore.ts`、`usePlayerChromeSettingsStore.ts`、`usePlayerBottomBarLayoutStore.ts`、`useTypographySettingsStore.ts`
+- 行为与功能开关：`useInteractionSettingsStore.ts`、`useAutomixSettingsStore.ts`、`useAudioSettingsStore.ts`、`useLyricSettingsStore.ts`、`useLyricSegmentationStore.ts`、`useLocalLibrarySettingsStore.ts`、`useSleepTimerStore.ts`、`usePersonalFmModeStore.ts`、`usePlaybackEntryViewStore.ts`、`useDesktopSettingsStore.ts`
+- 视图与网格：`useAppViewStore.ts`（`home` / `player` / `lattice` 三个视图）、`useGridSurfaceStore.ts`（网格把自己的能力发布给命令面板）
 
 ## Services
 
 - 在线歌曲公共边界：`services/onlineMusic/omni.ts`；provider adapter / transport 只在实现层使用，详见 [Omni 在线音乐服务层](/developer/omni)
 - 本地库：`localLibraryCatalogService.ts`、`localLibraryCatalogInternals.ts`、`localLibraryImportCatalog.ts`、`localMusicService.ts`、`localPlaylistService.ts`
 - 本地实体：`localLibraryEntityMutations.ts`、`localLibraryEntityRepository.ts`
-- Navidrome：`navidromeService.ts`；它是独立 Subsonic 服务，不是 Omni provider
+- Navidrome：`navidromeService.ts`；它是独立的 Subsonic / OpenSubsonic 客户端，不是 Omni provider。能力探测在 `getServerProfile`，歌词在 `utils/lyrics/navidromeStructuredLyrics.ts` 与 `adapters/NavidromeLyricAdapter.ts`，播放上报在 `utils/navidromeScrobble.ts`
+- 智能过渡：`services/automix/*`，过渡策略在 `transitionStrategy.ts`
 - 播放：`onlinePlayback.ts`、`playbackAdapters.ts`、`prefetchService.ts`、`nowPlayingProvider.ts`、`playerCapProvider.ts`
 - 音频处理：`audioEqualizerGraph.ts`、`audioEffects/*`
 - 缓存 / 数据库：`db.ts`、`appDatabase.ts`、`repositories/*`、`coverCache.ts`、`audioCache.ts`、`binaryAssetStore.ts`
@@ -108,8 +120,11 @@ App.tsx
 - `src/components/modal/settings/DesktopSettingsSubview.tsx`
 - `src/components/modal/settings/StorageSettingsSection.tsx`
 - `src/components/modal/settings/PinnedCommandSettings.tsx`
+- `src/components/modal/settings/InteractionSettingsSubview.tsx`
 - `src/components/modal/settings/LabSettingsModal.tsx`
-- `src/stores/useSettingsUiStore.ts`
+- `src/components/modal/settings/navigation/settingsNavModel.ts`（侧栏分组、顺序、标题的唯一真源）
+- `src/components/modal/settings/navigation/settingsAnchorModel.ts`（每个小节属于哪一页、用哪个翻译键；命令面板的“直达小节”依赖它）
+- `src/stores/useSettingsModalStore.ts`
 
 这一组文件基本覆盖了：
 
@@ -174,7 +189,8 @@ Folia 的歌词动画能力相对独立，适合单独阅读：
 
 如果后续继续从主仓库同步内容到文档站点，比较稳的方式是：
 
-- 用户功能说明优先读 `SettingsModal` 与各个 settings subview
+- 先读主仓库 `docs/CODEMAP.md`（自动生成，结构上不会过期）确认区域分布和枢纽模块
+- 用户功能说明优先读 `SettingsModal` 与各个 settings subview，再读 `src/i18n/locales/zh-CN.ts`：所有用户可见文案（含命令面板每条命令的中文标题和说明、以及 `releaseNotes` 里的版本更新说明）都在那里
 - 开发者导向内容优先读主仓库 `docs/technical.md`、`src/README.md`、`src/components/visualizer/README.md` 和 `src/services/onlineMusic/README.md`
 - 某个具体功能页再补读对应 `services`、`hooks`、`visualizer` 或 `electron` 文件
 

@@ -8,7 +8,9 @@
 | --- | --- | --- |
 | `VITE_NETEASE_API_BASE` | 是 | 网易云 API 基地址 |
 | `VITE_KUGOU_API_BASE` | 否 | Web 版 KuGouMusicApi 基地址；默认留空，Electron 版使用内置模块 |
-| `VITE_QQ_API_BASE` | 否 | Web / 开发构建使用的 QQ 音乐 API 基地址；默认留空，留空时 QQ 入口可见但不可用 |
+| `VITE_QQ_API_BASE` | 否 | Web / 开发构建使用的 QQ 音乐 API 基地址；Cloudflare / Vercel 上可填 `/api/qq` 用仓库内置的 serverless 入口；默认留空，留空时 QQ 入口可见但不可用 |
+| `QQ_SESSION_SECRET` | 用 `/api/qq` 时需要 | serverless 形态下加密登录态的服务端密钥，**不加 `VITE_` 前缀**；未设置时 QQ 登录路由返回 501，曲库路由仍可用 |
+| `QQ_SESSION_SECRET_PREVIOUS` | 否 | 轮换 `QQ_SESSION_SECRET` 时用来验证旧令牌，避免把所有人一次性登出 |
 | `VITE_AI_PROVIDER` | 是 | `google` 或 `openai` |
 | `GEMINI_API_KEY` | 使用 Gemini 时必需 | Gemini Key |
 | `OPENAI_API_KEY` | 使用 OpenAI 兼容接口时必需 | OpenAI 兼容 Key |
@@ -106,7 +108,11 @@ Navidrome 在前端侧保存这些信息：
 - `username`
 - `password`
 
-接入时会按 Subsonic / OpenSubsonic 方式生成认证参数。Navidrome 是独立的 Subsonic 服务，入口是 `src/services/navidromeService.ts`，不属于 Omni provider，也不受在线 Provider 切换影响。
+接入时会按 Subsonic 标准的 salt + token 方式生成认证参数（`t = md5(密码 + salt)`，每次请求随机 salt），声明 API 版本 `1.16.1`、客户端标识 `Folia`、响应格式 JSON。**token 认证要求客户端持有明文密码，因此密码无法预先哈希，是明文保存的**——建议在服务端单独建一个只读账号给 Folia 用。
+
+入口是 `src/services/navidromeService.ts`，它是独立的 Subsonic / OpenSubsonic 客户端，不属于 Omni provider，也不受在线 Provider 切换影响。因为走的是标准接口，其他 Subsonic 兼容服务端同样可以连接，能力上限取决于服务端实现了什么。
+
+连接成功时 `getServerProfile` 会并行探测 `ping`、`getOpenSubsonicExtensions`、`getUser`、`getMusicFolders`、`getLicense` 并缓存结果，其中的扩展列表决定了 `songLyrics`、`playbackReport`、`transcoding`、`apiKeyAuthentication`、`formPost` 这几项能力是否可用。
 
 ## 同步服务
 
@@ -115,3 +121,10 @@ Navidrome 在前端侧保存这些信息：
 ## 本地音乐运行条件
 
 本地音乐功能依赖浏览器或桌面运行环境的文件访问能力。桌面版体验会更完整；Web 版则依赖宿主环境是否支持文件系统访问接口。
+
+可导入的音频扩展名分两档：
+
+- 所有版本：`mp3`、`flac`、`m4a`、`wav`、`ogg`、`opus`、`aac`
+- 桌面版额外支持（需要 `window.electron.requestTranscodeFallback` 存在）：`alac`、`ape`、`wv`、`tta`、`wma`、`aif`、`aiff`、`caf`；播放时用内置 FFmpeg 转码回退，不改动原文件
+
+自动扫描依赖运行环境的 `FileSystemObserver`；不支持时设置页不会显示这一节。
