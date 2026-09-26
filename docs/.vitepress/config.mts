@@ -53,7 +53,8 @@ export default defineConfig({
             { text: "AI 主题", link: "/guide/ai-theme" },
             { text: "模组系统（实验性）", link: "/guide/mods" },
             { text: "常见问题", link: "/guide/faq" },
-            { text: "macOS App 已损坏", link: "/guide/macos-app-damaged" }
+            { text: "macOS App 已损坏", link: "/guide/macos-app-damaged" },
+            { text: "Chromium FD 耗尽问题", link: "/guide/chromium-fd-exhaustion" }
           ]
         }
       ],
