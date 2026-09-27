@@ -16,7 +16,7 @@
 - 队列拼贴视图看 [Lattice（队列拼贴）](/guide/lattice)
 - 命令面板与快捷键看 [命令面板](/guide/command-palette)
 - 切歌过渡看 [Folia 智能过渡](/guide/automix)
-- 模组看 [模组系统（实验性）](/guide/mods)
+- 模组看 [模组系统（Folium 1.3）](/guide/mods)
 - 自建服务器接入看 [Navidrome / OpenSubsonic](/guide/navidrome)
 - “这个功能是哪一版加的”看 [更新记录](/guide/changelog)
 - Stage 与外部接入看 [Stage 与 Now Playing](/guide/stage-and-now-playing)
@@ -51,7 +51,7 @@
 | 命令面板、执行模式、快捷键、队列批量操作 | [命令面板](/guide/command-palette) | [设置说明](/guide/settings) | 用户问入口时要 |
 | 队列拼贴 / Lattice / 海报墙 / 歌曲墙 | [Lattice（队列拼贴）](/guide/lattice) | [命令面板](/guide/command-palette) | 要 |
 | 切歌过渡、Automix、混音、分析模型 | [Folia 智能过渡](/guide/automix) | [设置说明](/guide/settings) | 不需要 |
-| 模组、mod、zip 安装、透明视频导出 | [模组系统（实验性）](/guide/mods) | [桌面版功能](/guide/desktop) | 不需要 |
+| 模组、mod、zip 安装、透明视频导出 | [模组系统（Folium 1.3）](/guide/mods) | [桌面版功能](/guide/desktop) | 不需要 |
 | 壁纸模式、崩溃日志、更新通道 | [桌面版功能](/guide/desktop) | [设置说明](/guide/settings) | 要 |
 | 某个功能是哪个版本加的 | [更新记录](/guide/changelog) | — | 不需要 |
 | Stage、Now Playing、OBS 接入 | [Stage 与 Now Playing](/guide/stage-and-now-playing) | [桌面版功能](/guide/desktop) | 要 |
@@ -651,7 +651,7 @@
 | `命令面板` `Ctrl+K` `执行模式` `快捷命令` `自定义快捷键` | [命令面板](/guide/command-palette) |
 | `Lattice` `队列拼贴` `歌曲墙` `海报墙视图` `Ctrl+B` | [Lattice（队列拼贴）](/guide/lattice) |
 | `Automix` `智能过渡` `混音` `分析模型` `表现模式` | [Folia 智能过渡](/guide/automix) |
-| `模组` `mod` `zip 安装` `透明视频导出` | [模组系统（实验性）](/guide/mods) |
+| `模组` `mod` `zip 安装` `透明视频导出` | [模组系统（Folium 1.3）](/guide/mods) |
 | `壁纸模式` `听歌打卡` `自动扫描` `转码` | [设置说明](/guide/settings) 和 [桌面版功能](/guide/desktop) |
 | `OBS` `Browser Source` `token` `复制地址` | [桌面版功能](/guide/desktop) 和 [Stage 与 Now Playing](/guide/stage-and-now-playing) |
 | `遥控窗` `录制` `点击穿透` `透明背景` | [桌面版功能](/guide/desktop) |

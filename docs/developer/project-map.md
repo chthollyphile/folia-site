@@ -7,7 +7,7 @@
 ## 总体分层
 
 - `src/`：前端界面、播放逻辑、歌词解析、视觉模式、设置中心
-- `src/mods/`：实验性模组系统的前端侧
+- `src/mods/`：Folium 模组平台的前端侧
 - `skills/` 与 `docs/CODEMAP.md`：主仓库的 AI 协作规则与自动生成的代码地图；`docs/CODEMAP.md` 由 `npm run codemap` 生成，CI 会重新生成并比对，**不要手改**
 - `api-ts/` → `api/`：Vercel 服务端函数源码与编译产物；`worker/` 是同一批接口的 Cloudflare 版本
 - `shared/`：Web、Worker 与 Electron 共用的主题清洗等公共代码

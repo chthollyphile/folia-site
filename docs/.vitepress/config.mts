@@ -51,7 +51,7 @@ export default defineConfig({
             { text: "Navidrome / OpenSubsonic", link: "/guide/navidrome" },
             { text: "Stage 与 Now Playing", link: "/guide/stage-and-now-playing" },
             { text: "AI 主题", link: "/guide/ai-theme" },
-            { text: "模组系统（实验性）", link: "/guide/mods" },
+            { text: "模组系统（Folium 1.3）", link: "/guide/mods" },
             { text: "常见问题", link: "/guide/faq" },
             { text: "macOS App 已损坏", link: "/guide/macos-app-damaged" },
             { text: "Chromium FD 耗尽问题", link: "/guide/chromium-fd-exhaustion" }
@@ -70,6 +70,14 @@ export default defineConfig({
             { text: "Omni 在线音乐服务层", link: "/developer/omni" },
             { text: "歌词动画视觉效果器", link: "/developer/visualizer" },
             { text: "已知非 Bug 问题", link: "/developer/known-non-bug-issues" }
+          ]
+        },
+        {
+          text: "Folium 模组开发",
+          items: [
+            { text: "开发与贡献指南", link: "/developer/folium-contributing" },
+            { text: "平台规范", link: "/developer/folium-spec" },
+            { text: "API 参考", link: "/developer/folium-api" }
           ]
         },
         {

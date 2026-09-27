@@ -5,12 +5,15 @@
 
 本部分面向准备部署、二次开发或与 Folia 集成的开发者。
 
+开发桌面版模组请阅读 [Folium 模组开发与贡献指南](/developer/folium-contributing)，并配合 [平台规范](/developer/folium-spec)与 [API 参考](/developer/folium-api)使用。
+
 ## 你会在这里找到什么
 
 - Web / 桌面版开发与部署方式
 - 环境变量和运行前提
 - Stage API、歌词接口与 AI 主题接口说明
 - 在线音乐 Omni 服务层与 Provider 扩展约定
+- Folium 模组开发、发布、平台规范与 API 参考
 - 从代码结构快速定位功能入口的方法
 
 ## 项目结构概览
@@ -29,7 +32,7 @@ Folia 主要由这些部分构成：
 | `deploy/docker/` | Docker Compose 全栈部署（前端 + 各音源 API + 同步服务） |
 | `skills/` | 主仓库内的开发规则集，约束模块划分、复用和设置接入方式 |
 | `dev/` | 开发期工具：代码地图生成器（`dev/mcp/ts-code-map/`）、UI probe、拼音索引插件等 |
-| `mods/` | 实验性模组系统加载模组的目录 |
+| `mods/` | Folium 模组规范与开发版示范模组所在目录 |
 | `models/` | Automix 分析模型（按需下载，不进安装包） |
 | `ffmpeg-audio/` | 桌面端音频转码回退用的 FFmpeg 相关资源 |
 | `stage-client.html` | Stage API 联调台入口 |
