@@ -13,8 +13,8 @@ export interface NetdiskLink {
 export const netdiskLinks: NetdiskLink[] = [
   {
     name: "百度网盘",
-    url: "", // TODO: 待补充百度网盘链接
-    code: ""
+    url: "https://pan.baidu.com/s/1f0x3g-8PMcNCO-TJ5z1rPw?pwd=flia",
+    code: "flia"
   },
   {
     name: "夸克网盘",
