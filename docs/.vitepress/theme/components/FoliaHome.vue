@@ -57,7 +57,38 @@
           <h1 class="title">Folia</h1>
           <p class="subtitle">Lyrics Reimagined.</p>
           <div class="cta-actions hero-actions">
-            <a href="https://github.com/chthollyphile/folia-major/releases" target="_blank" class="btn btn-primary">立即下载</a>
+            <a :href="githubReleaseUrl" target="_blank" class="btn btn-primary">GitHub 下载</a>
+            <div ref="netdiskMenuRef" class="netdisk-menu">
+              <button
+                type="button"
+                class="btn btn-primary"
+                aria-haspopup="menu"
+                :aria-expanded="isNetdiskMenuOpen"
+                @click="isNetdiskMenuOpen = !isNetdiskMenuOpen"
+              >网盘下载</button>
+              <transition name="netdisk-pop">
+                <div v-if="isNetdiskMenuOpen" class="netdisk-popover glass-card" role="menu">
+                  <template v-for="link in netdiskLinks" :key="link.name">
+                    <a
+                      v-if="link.url"
+                      :href="link.url"
+                      target="_blank"
+                      rel="noopener"
+                      class="netdisk-item"
+                      role="menuitem"
+                      @click="isNetdiskMenuOpen = false"
+                    >
+                      <span class="netdisk-name">{{ link.name }}</span>
+                      <span v-if="link.code" class="netdisk-meta">提取码 {{ link.code }}</span>
+                    </a>
+                    <span v-else class="netdisk-item is-disabled" role="menuitem" aria-disabled="true">
+                      <span class="netdisk-name">{{ link.name }}</span>
+                      <span class="netdisk-meta">链接待补充</span>
+                    </span>
+                  </template>
+                </div>
+              </transition>
+            </div>
             <a href="/guide/" class="btn btn-secondary glass">查看文档</a>
             <a href="https://github.com/chthollyphile/folia-major" target="_blank" class="btn btn-secondary glass">GitHub 仓库</a>
           </div>
@@ -251,6 +282,7 @@
 
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { githubReleaseUrl, netdiskLinks } from '../downloadLinks'
 
 const scrollY = ref(0)
 const windowHeight = ref(1000)
@@ -324,6 +356,21 @@ const stopThemeCompareDrag = () => {
   isThemeCompareDragging.value = false
 }
 
+const netdiskMenuRef = ref(null)
+const isNetdiskMenuOpen = ref(false)
+
+const onNetdiskOutsideClick = (event) => {
+  if (isNetdiskMenuOpen.value && netdiskMenuRef.value && !netdiskMenuRef.value.contains(event.target)) {
+    isNetdiskMenuOpen.value = false
+  }
+}
+
+const onNetdiskKeydown = (event) => {
+  if (event.key === 'Escape') {
+    isNetdiskMenuOpen.value = false
+  }
+}
+
 const updateScroll = () => {
   if (typeof window !== 'undefined') {
     scrollY.value = window.scrollY
@@ -355,6 +402,8 @@ onMounted(() => {
     window.addEventListener('touchmove', onThemeComparePointerMove, { passive: false })
     window.addEventListener('touchend', stopThemeCompareDrag, { passive: true })
     window.addEventListener('touchcancel', stopThemeCompareDrag, { passive: true })
+    document.addEventListener('pointerdown', onNetdiskOutsideClick)
+    document.addEventListener('keydown', onNetdiskKeydown)
     updateScroll()
 
     previewTimer = window.setInterval(() => {
@@ -375,6 +424,8 @@ onUnmounted(() => {
     window.removeEventListener('touchmove', onThemeComparePointerMove)
     window.removeEventListener('touchend', stopThemeCompareDrag)
     window.removeEventListener('touchcancel', stopThemeCompareDrag)
+    document.removeEventListener('pointerdown', onNetdiskOutsideClick)
+    document.removeEventListener('keydown', onNetdiskKeydown)
 
     if (previewTimer !== null) {
       window.clearInterval(previewTimer)
@@ -673,7 +724,80 @@ html:not(.dark) .geo-square-hollow {
 
 .hero-actions {
   justify-content: center;
+  flex-wrap: wrap;
   margin-top: 2rem;
+}
+
+.netdisk-menu {
+  position: relative;
+  display: flex;
+}
+
+.netdisk-menu > .btn {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+.netdisk-popover.glass-card {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  min-width: 200px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 20px;
+  background: var(--fh-bg);
+  text-align: left;
+}
+
+.netdisk-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  color: var(--fh-text);
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.netdisk-item:hover {
+  background: var(--fh-btn-secondary-hover);
+}
+
+.netdisk-item.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.netdisk-item.is-disabled:hover {
+  background: transparent;
+}
+
+.netdisk-meta {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--fh-subtitle-color);
+}
+
+.netdisk-pop-enter-active,
+.netdisk-pop-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.netdisk-pop-enter-from,
+.netdisk-pop-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -6px);
 }
 
 .scroll-indicator {
