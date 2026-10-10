@@ -147,3 +147,13 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* 下载页：抵消首页组件对 .VPDoc 的全宽覆盖，恢复正常文档版心 */
+.download-page .VPDoc {
+  padding: 48px 24px 96px !important;
+}
+
+.download-page .VPDoc .container {
+  max-width: 760px !important;
+  margin: 0 auto !important;
+}
