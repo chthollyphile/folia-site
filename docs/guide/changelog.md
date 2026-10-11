@@ -395,7 +395,7 @@ P.S. 由于一些个人事务，接下来一段时间的更新会变慢，敬请
 > 紧急修复了 v0.5.25 版本一个导致队列命令显示错误的问题，其他功能与 v0.5.25 完全一致
 
 - **新功能：主题云同步**。可自行使用 cloudflare D1 或 docker容器 托管 Folia-Sync-Server，在各个设备之间同步AI配色主题。
-部署方法参见：[部署教程](https://folia-site.vercel.app/guide/deploy-sync) ，[视频教程](https://www.bilibili.com/video/BV1G3Nw6GEY7/)
+部署方法参见：[部署教程](https://folia-site.cielaniska.top/guide/deploy-sync) ，[视频教程](https://www.bilibili.com/video/BV1G3Nw6GEY7/)
 - 新功能：**播放队列管理**。现在可以调整播放队列中的歌曲了，鼠标悬浮在歌曲上，可选择 `移出队列`，`下一首播放`，`移动到队列末尾`
 - 新功能：**随机歌词动画模式**。在播放页 按下 `S键` 打开命令窗口后，输入 `随机` 可选择启用随机歌词动画模式，会在播放每一首歌曲的时候随机选择不同的歌词动画模式
 - 新功能：主题 JSON 导出。现在点击主题名称，可以在弹出的快速编辑面板中导出当前正在查看的主题的json配置，分享给其他用户
@@ -408,7 +408,7 @@ P.S. 由于一些个人事务，接下来一段时间的更新会变慢，敬请
 ## [v0.5.25](https://github.com/chthollyphile/folia-major/releases/tag/v0.5.25) · 2026-07-11
 
 - **新功能：主题云同步**。可自行使用 cloudflare D1 或 docker容器 托管 Folia-Sync-Server，在各个设备之间同步AI配色主题。
-部署方法参见：[部署教程](https://folia-site.vercel.app/guide/deploy-sync) ，[视频教程](https://www.bilibili.com/video/BV1G3Nw6GEY7/)
+部署方法参见：[部署教程](https://folia-site.cielaniska.top/guide/deploy-sync) ，[视频教程](https://www.bilibili.com/video/BV1G3Nw6GEY7/)
 - 新功能：**播放队列管理**。现在可以调整播放队列中的歌曲了，鼠标悬浮在歌曲上，可选择 `移出队列`，`下一首播放`，`移动到队列末尾`
 - 新功能：**随机歌词动画模式**。在播放页 按下 `S键` 打开命令窗口后，输入 `随机` 可选择启用随机歌词动画模式，会在播放每一首歌曲的时候随机选择不同的歌词动画模式
 - 新功能：主题 JSON 导出。现在点击主题名称，可以在弹出的快速编辑面板中导出当前正在查看的主题的json配置，分享给其他用户

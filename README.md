@@ -21,8 +21,7 @@ npm run docs:build
 
 ## Deploy
 
-Deploy to Vercel with:
+部署在 Cloudflare Workers（静态资源），配置见 `wrangler.jsonc`。推送到 `master` 后由 Workers Builds 自动构建：
 
-```bash
-npm run docs:build
-```
+- Build command: `npm run docs:build`
+- Deploy command: `npx wrangler deploy`
