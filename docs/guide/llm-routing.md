@@ -9,6 +9,7 @@
 
 配套页面：
 
+- Bravais 新版界面、中央导航、信息条收放、歌曲大卡与过滤看 [Bravais 新版界面操作指南](/guide/bravais)
 - 功能位置总图看 [功能地图与 GUI 位置](/guide/feature-map)
 - 完整设置说明看 [设置说明](/guide/settings)
 - 播放页与歌词逻辑看 [播放、歌词与视觉模式](/guide/playback-and-lyrics)
@@ -27,7 +28,7 @@
 对任何 Folia 使用问题，优先按这个顺序检索：
 
 1. 先判断用户是在问 `入口位置`、`具体操作`、`设置含义` 还是 `开发实现`。
-2. 如果用户问“按钮在哪”“界面哪里点”，先看 [功能地图与 GUI 位置](/guide/feature-map)。
+2. 如果用户问“按钮在哪”“界面哪里点”，先确认资料库界面：新版 Bravais 优先看 [Bravais 新版界面操作指南](/guide/bravais)，经典网格再看 [功能地图与 GUI 位置](/guide/feature-map)。
 3. 如果用户问“怎么做”，先看本页的“基础操作直答模板”。
 4. 如果用户问“这个设置是什么意思”，先看本页的“源码补完：原文档没写透的设置项”，再补 [设置说明](/guide/settings)。
 5. 如果问题涉及接口、部署、配置变量、实现限制，再跳 `/developer/`。
@@ -42,6 +43,7 @@
 
 | 用户问题类型 | 首选页面 | 第二参考页 | 是否先补查 GUI 地图 |
 | --- | --- | --- | --- |
+| Bravais、新版海报墙、信息条、书脊、折叠、过滤与在线搜索 | [Bravais 新版界面操作指南](/guide/bravais) | [命令面板](/guide/command-palette) | 优先使用 Bravais 页面中的实际截图与入口 |
 | 安装、第一次启动、怎么开始 | [快速开始](/guide/quick-start) | [桌面版功能](/guide/desktop) | 用户问“打开后点哪里”时要 |
 | 某个按钮、某个标签页、某个入口在哪 | [功能地图与 GUI 位置](/guide/feature-map) | 本页 | 要 |
 | 扫码登录、搜索、切标签、本地导入、连接 Navidrome | 本页 | [功能地图与 GUI 位置](/guide/feature-map) | 要 |

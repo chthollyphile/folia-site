@@ -6,7 +6,7 @@
 Folia 是一款以歌词为中心的播放器。它把在线音乐、本地音乐、Subsonic / OpenSubsonic 曲库、舞台模式和 AI 主题整合到同一套播放体验里。
 
 > [!TIP]
-> 先前往 [基本用法](/guide/basic) 查看最基本的操作说明
+> 使用新版 Bravais 墙面界面，请先阅读 [Bravais 新版界面操作指南](/guide/bravais)（含正式版截图）；经典网格界面可阅读 [基本用法](/guide/basic)。
 
 
 > [!TIP]
@@ -38,6 +38,8 @@ Folia 是一款以歌词为中心的播放器。它把在线音乐、本地音�
 | 多端同步 | 通过自建的同步服务同步视觉设置与 AI 主题。 |
 
 ## 推荐阅读顺序
+
+新版界面从 [Bravais 图文操作指南](/guide/bravais) 开始，下面各功能章节可按需查阅。
 
 0. [基本用法](/guide/basic)
 1. [快速开始](/guide/quick-start)

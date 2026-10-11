@@ -28,6 +28,7 @@ export default defineConfig({
           text: "开始使用",
           items: [
             { text: "概览", link: "/guide/" },
+            { text: "Bravais 新版界面", link: "/guide/bravais" },
             { text: "基础使用", link: "/guide/basic" },
             { text: "快速开始", link: "/guide/quick-start" },
             { text: "Docker 全栈部署", link: "/guide/deploy-docker" },
