@@ -33,7 +33,7 @@ Folia 主要由这些部分构成：
 | `skills/` | 主仓库内的开发规则集，约束模块划分、复用和设置接入方式 |
 | `dev/` | 开发期工具：代码地图生成器（`dev/mcp/ts-code-map/`）、UI probe、拼音索引插件等 |
 | `mods/` | Folium 模组规范与开发版示范模组所在目录 |
-| `models/` | Automix 分析模型（按需下载，不进安装包） |
+| `models/` | Automix 与智能动感的分析模型（不进 git，`npm run models:fetch` 拉取，打包时放进安装包） |
 | `ffmpeg-audio/` | 桌面端音频转码回退用的 FFmpeg 相关资源 |
 | `stage-client.html` | Stage API 联调台入口 |
 
