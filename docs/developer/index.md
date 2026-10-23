@@ -5,7 +5,7 @@
 
 本部分面向准备部署、二次开发或与 Folia 集成的开发者。
 
-开发桌面版模组请阅读 [Folium 模组开发与贡献指南](/developer/folium-contributing)，并配合 [平台规范](/developer/folium-spec)与 [API 参考](/developer/folium-api)使用。
+开发桌面版模组（当前为 Folium 1.7，随 Folia v0.7.22 发布）请先走一遍 [第一个模组](/developer/folium-quickstart)，再阅读 [Folium 模组开发与贡献指南](/developer/folium-contributing)，并配合 [平台规范](/developer/folium-spec)与 [API 参考](/developer/folium-api)使用。
 
 ## 你会在这里找到什么
 
