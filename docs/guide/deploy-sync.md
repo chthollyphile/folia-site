@@ -291,11 +291,11 @@ npm run start:node
 
 打开 Folia，然后进入：
 
-`设置 -> 存储 -> 同步服务`
+`设置 > 应用 > 连接与集成 > 服务 > 同步服务`
 
 按下面填写：
 
-1. `Sync Server URL`：填写你的服务地址，记得带 `http://` 或 `https://`
+1. `Sync Server 地址`：填写你的服务地址，记得带 `http://` 或 `https://`
 2. `Bearer Token`：填写你设置的 `SYNC_TOKEN`
 
 保存后点击“立即同步”即可开始。Folia 也会在启动和主题生成时自动尝试同步。

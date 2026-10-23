@@ -133,7 +133,7 @@ App.tsx
 - 哪些配置会持久化到本地
 - 哪些功能只是 UI 行为，哪些会真正调用 Electron 或服务层
 
-视觉配置的导入导出集中在 `AppearanceSettingsSubview.tsx` 的 `buildCurrentConfig`、`compressConfig`、`decompressConfig`、`validKeys` 和 `handleImportConfig`。新增视觉设置时必须同步这里；新增功能性设置和可执行动作则要注册到 `commandRegistry.ts`。
+视觉配置的导入导出集中在 `src/components/modal/settings/pages/storage/visualConfigTransfer.ts` 和 `src/utils/appearanceCodec.ts`。新增外观类设置时必须同步这里；新增功能性设置和可执行动作则要注册到 `commandRegistry.ts`。
 
 ## 播放与歌词链路
 

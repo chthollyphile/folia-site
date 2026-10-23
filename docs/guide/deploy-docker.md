@@ -168,7 +168,7 @@ HTTP 与 HTTPS 是不同的 origin。切换到 HTTPS 后，HTTP 下保存的登�
 
 ## 在 Folia 中接入同步服务
 
-部署完成后，在 Folia 的同步设置中填写同步服务地址，例如 `https://sync.example.com`，并填入 `.env` 中的 `SYNC_TOKEN`。具体设置步骤可参考 [部署同步服务](/guide/deploy-sync#部署完成后如何接入-folia)。
+部署完成后，在 Folia 的同步设置中填写同步服务地址，例如 `https://sync.example.com`，并填入 `.env` 中的 `SYNC_TOKEN`。具体设置步骤可参考 [部署同步服务](/guide/deploy-sync#部署完成后-如何接入-folia)。
 
 ## 更新、回滚与备份
 
