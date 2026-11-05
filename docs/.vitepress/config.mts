@@ -6,6 +6,9 @@ export default defineConfig({
   lang: "zh-CN",
   cleanUrls: true,
   lastUpdated: true,
+  sitemap: {
+    hostname: "https://folia-site.cielaniska.top"
+  },
   head: [
     ["link", { rel: "icon", href: "/icon.svg" }],
     ["meta", { name: "google-site-verification", content: "SkPCfHUA5XQ2qWBgjNh9MAZthf9TTnnJLDkNBRhuKPw" }],
