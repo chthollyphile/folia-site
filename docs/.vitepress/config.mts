@@ -8,6 +8,7 @@ export default defineConfig({
   lastUpdated: true,
   head: [
     ["link", { rel: "icon", href: "/icon.svg" }],
+    ["meta", { name: "google-site-verification", content: "SkPCfHUA5XQ2qWBgjNh9MAZthf9TTnnJLDkNBRhuKPw" }],
     ["meta", { name: "theme-color", content: "#111827" }],
     ["meta", { property: "og:type", content: "website" }],
     ["meta", { property: "og:title", content: "Folia" }],
